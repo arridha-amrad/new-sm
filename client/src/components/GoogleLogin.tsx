@@ -1,6 +1,8 @@
+import getGoogleOauthURL from "../utils/getGoogleOauthURL";
+
 const GoogleLogin = () => {
   const onGoogleLogin = () => {
-    console.log("google login");
+    window.open(getGoogleOauthURL(), "_blank");
   };
   return (
     <div

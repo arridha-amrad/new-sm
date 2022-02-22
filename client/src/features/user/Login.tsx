@@ -1,14 +1,14 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import InputPassword from "../../components/InputPassword";
 import useForm from "../../utils/useForm";
 import { LoginDTO } from "./interface";
-import { loginAction, selectUserState, unsetAlert } from "./userSlice";
+import { loginAction, selectUserState } from "./userSlice";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { alert, isLoading } = useAppSelector(selectUserState);
+  const { isLoading, loginUser } = useAppSelector(selectUserState);
   const navigate = useNavigate();
 
   const { onChange, state } = useForm<LoginDTO>({
@@ -25,9 +25,19 @@ const Login = () => {
       localStorage.setItem("isAuthenticated", "true");
       if (pathname === "/login") {
         navigate("/");
+      } else {
+        window.location.href = "/";
       }
     }
   };
+
+  useEffect(() => {
+    if (loginUser) {
+      navigate("/");
+    }
+    // eslint-disable-next-line
+  }, [loginUser]);
+
   return (
     <form onSubmit={onSubmit} className="d-flex flex-column gap-3">
       <input

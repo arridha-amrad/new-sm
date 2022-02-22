@@ -1,6 +1,7 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
+import ProtectedRoute from "./components/ProtectedRoutes";
 import EmailConfirmation from "./features/user/EmailConfirmation";
 import { getLoginUserAPI } from "./features/user/userApi";
 import { setLoginUser } from "./features/user/userSlice";
@@ -9,19 +10,32 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 const App = () => {
-  const [isMounted, setIsMounted] = useState(true);
   const dispatch = useAppDispatch();
-  useLayoutEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (isAuthenticated && JSON.parse(isAuthenticated)) {
-      getLoginUserAPI().then(({ data }) => {
-        if (isMounted) {
-          dispatch(setLoginUser(data.user));
-        }
-      });
+  const [isMounted, setIsMounted] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchUser = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await getLoginUserAPI();
+      if (isMounted) {
+        dispatch(setLoginUser(data.user));
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchUser();
     return () => setIsMounted(false);
+    // eslint-disable-next-line
   }, []);
+
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />

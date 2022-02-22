@@ -121,6 +121,7 @@ export const googleOauthHandler = async (req: Request, res: Response) => {
     // create accessToken and refreshToken
     const accessToken = await signAccessToken(myUser.id);
     const refresh_token = await signRefreshToken(myUser);
+    res.cookie('isAuthenticated', true);
     res.cookie(process.env.COOKIE_ACC_TOKEN, accessToken, setCookieOptions);
     res.cookie(
       process.env.COOKIE_REFRESH_TOKEN,

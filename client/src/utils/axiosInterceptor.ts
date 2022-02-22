@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error: any) => {
-    if (error.response.status === 401) {
+    if (error.response.data.message === "token expired") {
       return axiosInstance
         .get("/api/auth/refresh-token")
         .then(() => {

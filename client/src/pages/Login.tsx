@@ -9,7 +9,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const { alert } = useAppSelector(selectUserState);
   return (
-    <section className="d-flex flex-column min-vh-100">
+    <section className="d-flex flex-column min-vh-100 overflow-hidden">
       <div className="flex-grow-1 d-flex align-items-center  justify-content-center">
         <div
           style={{ width: "400px" }}

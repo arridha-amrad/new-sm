@@ -2,13 +2,18 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Alert } from "../alert/interface";
 import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
-import { loginAPI, logoutAPI, registerAPI } from "./userApi";
+import { getLoginUserAPI, loginAPI, logoutAPI, registerAPI } from "./userApi";
 
 const initialState: AuthState = {
   isLoading: false,
   loginUser: null,
   alert: null,
 };
+
+export const getLoginUser = createAsyncThunk("user/setLoginUser", async () => {
+  const { data } = await getLoginUserAPI();
+  return data.user;
+});
 
 export const registerAction = createAsyncThunk(
   "user/registration",
