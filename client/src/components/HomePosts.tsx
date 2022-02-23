@@ -18,8 +18,8 @@ const HomePosts = () => {
 
   return (
     <>
-      {posts.map((post) => (
-        <PostCard key={post._id} post={post} />
+      {posts.map((post, index) => (
+        <PostCard key={post._id} post={post} stateIndex={index} />
       ))}
     </>
   );

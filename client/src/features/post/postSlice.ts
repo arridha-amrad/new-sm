@@ -1,8 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Alert } from "../alert/interface";
-import { PostState } from "./interface";
-import { createPostAPI, getPostsAPI } from "./postApi";
+import { User } from "../user/interface";
+import { Post, PostState } from "./interface";
+import {
+  createCommentAPI,
+  CreateCommentDTO,
+  createPostAPI,
+  getPostsAPI,
+  likePostAPI,
+} from "./postApi";
 
 const initialState: PostState = {
   alert: null,
@@ -35,10 +42,58 @@ export const getPostsAction = createAsyncThunk(
   }
 );
 
+export const likePostAction = createAsyncThunk(
+  "post/likePost",
+  async (postId: string, thunkAPI) => {
+    try {
+      const { data } = await likePostAPI(postId);
+      return data.post;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const createCommentAction = createAsyncThunk(
+  "post/createComment",
+  async (dto: CreateCommentDTO, thunkAPI) => {
+    try {
+      const { data } = await createCommentAPI({
+        data: dto.data,
+        postId: dto.postId,
+      });
+      return data.comment;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+interface LikePost {
+  postIndex: number;
+  user: User;
+  isLiked: boolean;
+}
 export const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    setLikePost: (state, action: PayloadAction<LikePost>) => {
+      const { postIndex, user, isLiked } = action.payload;
+      if (isLiked) {
+        state.posts[postIndex].likes = state.posts[postIndex].likes.filter(
+          (like) => like._id !== user._id
+        );
+      } else {
+        state.posts[postIndex].likes.push(user);
+      }
+    },
+    removePost: (state, action: PayloadAction<Post>) => {
+      state.posts = state.posts.filter(
+        (post) => post._id !== action.payload._id
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPostsAction.pending, (state) => {
       state.isLoading = true;
@@ -73,7 +128,8 @@ export const postSlice = createSlice({
   },
 });
 
-export const {} = postSlice.actions;
+export const { setLikePost, removePost } = postSlice.actions;
+
 export const selectPostState = (state: RootState) => state.post;
 
 export default postSlice.reducer;

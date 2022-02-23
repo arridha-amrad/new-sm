@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import Navbar from "../components/AppBar";
 import HomeProfile from "../components/HomeProfile";
-import PostMaker from "../features/post/PostMaker";
-import { selectPostState } from "../features/post/postSlice";
 import { selectUserState } from "../features/user/userSlice";
 import HomePosts from "../components/HomePosts";
+import PostMaker from "../features/post/postMaker";
 
 const Home = () => {
   const { loginUser } = useAppSelector(selectUserState);
@@ -17,6 +16,7 @@ const Home = () => {
     if (!loginUser) {
       navigate("/login");
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -6,7 +6,7 @@ export interface Post {
   body: string;
   owner: User;
   images: string[];
-  comments: string[];
+  comments: Comment[];
   likes: User[];
   createdAt: Date;
   updatedAt: Date;
@@ -14,6 +14,7 @@ export interface Post {
 
 export interface Comment {
   _id: string;
+  owner: User;
   post: string;
   body: string;
   likes: User[];
