@@ -2,7 +2,7 @@ import { Alert } from "../alert/interface";
 import { User } from "../user/interface";
 
 export interface Post {
-  id: string;
+  _id: string;
   body: string;
   owner: User;
   images: string[];
@@ -13,7 +13,7 @@ export interface Post {
 }
 
 export interface Comment {
-  id: string;
+  _id: string;
   post: string;
   body: string;
   likes: User[];

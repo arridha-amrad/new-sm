@@ -1,14 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import Navbar from "../components/AppBar";
-import PostMaker from "../features/post/postMaker";
+import HomeProfile from "../components/HomeProfile";
+import PostMaker from "../features/post/PostMaker";
+import { selectPostState } from "../features/post/postSlice";
 import { selectUserState } from "../features/user/userSlice";
-import useForm from "../utils/useForm";
-import Login from "./Login";
+import HomePosts from "../components/HomePosts";
 
 const Home = () => {
   const { loginUser } = useAppSelector(selectUserState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loginUser) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -16,24 +25,10 @@ const Home = () => {
       <Container>
         <div className="d-flex flex-grow-1 align-items-center gap-5 mt-3">
           <PostMaker />
-          <div className="w-25">
-            <div className="d-flex flex-column justify-content-center align-items-center">
-              <div>
-                <img
-                  style={{
-                    height: "100px",
-                    width: "100px",
-                    borderRadius: "50%",
-                  }}
-                  className="img-thumbnail"
-                  src={loginUser?.avatarURL}
-                  alt="avatar"
-                />
-              </div>
-              <p>{loginUser?.username}</p>
-              <p>{loginUser?.email}</p>
-            </div>
-          </div>
+          <HomeProfile />
+        </div>
+        <div className="mt-5">
+          <HomePosts />
         </div>
       </Container>
     </>
