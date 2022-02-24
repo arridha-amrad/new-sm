@@ -1,9 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Alert } from "../alert/interface";
-import { removeComment, setComment } from "../post/postSlice";
-import { createCommentAPI, deleteCommentAPI } from "./commentApi";
-import { CommentState, CreateCommentDTO, DeleteCommentDTO } from "./interface";
+import { removeComment, setComment, setLikeComment } from "../post/postSlice";
+import {
+  createCommentAPI,
+  deleteCommentAPI,
+  likeCommentAPI,
+} from "./commentApi";
+import {
+  CommentState,
+  CreateCommentDTO,
+  DeleteCommentDTO,
+  LikeComment,
+} from "./interface";
 
 const initialState: CommentState = {
   comment: null,
@@ -12,6 +21,19 @@ const initialState: CommentState = {
   isLoadingComment: false,
   alert: null,
 };
+
+export const likeCommentAction = createAsyncThunk(
+  "comment/like",
+  async (props: LikeComment, thunkAPI) => {
+    try {
+      const { data } = await likeCommentAPI(props.comment._id);
+      thunkAPI.dispatch(setLikeComment(props));
+      return data.comment;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const createCommentAction = createAsyncThunk(
   "comment/create",

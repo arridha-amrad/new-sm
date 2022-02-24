@@ -28,3 +28,9 @@ export interface DeleteCommentDTO {
   postId: string;
   commentId: string;
 }
+
+export interface LikeComment {
+  comment: Comment;
+  isLiked: boolean;
+  user: User;
+}

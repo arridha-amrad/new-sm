@@ -1,11 +1,8 @@
 import React, { FormEvent, HTMLProps } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import useForm from "../../utils/useForm";
-import {
-  createCommentAction,
-  selectCommentState,
-} from "../comment/commentSlice";
-import { Post } from "./interface";
+import { createCommentAction, selectCommentState } from "./commentSlice";
+import { Post } from "../post/interface";
 
 type InputProps = HTMLProps<HTMLInputElement>;
 
@@ -40,7 +37,7 @@ const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
     };
 
     return (
-      <form onSubmit={onSubmit} className="d-flex w-100 gap-2">
+      <form onSubmit={onSubmit} className="d-flex w-100 gap-2 mt-2">
         <input
           name="body"
           value={state.body}

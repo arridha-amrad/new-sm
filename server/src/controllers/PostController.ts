@@ -146,8 +146,6 @@ export const createComment = async (req: Request, res: Response) => {
   const commentUser = req.userId;
   const { body } = req.body;
 
-  console.log('req.body : ', req.body);
-
   try {
     const post = await findOnePost(postId);
     if (post) {

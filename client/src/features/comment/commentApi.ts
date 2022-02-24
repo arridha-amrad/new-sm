@@ -14,7 +14,9 @@ export const createCommentAPI = async (dto: CreateCommentDTO) => {
 };
 
 export const likeCommentAPI = async (commentId: string) => {
-  return axiosInstance.post(`${url}/comment/like/${commentId}`);
+  return axiosInstance.post<{ comment: Comment }>(
+    `${url}/comment/like/${commentId}`
+  );
 };
 
 export const deleteCommentAPI = async (commentId: string) => {

@@ -4,13 +4,14 @@ import Dropdown from "react-bootstrap/esm/Dropdown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import CommentIcon from "../../components/CommentIcon";
 import { selectUserState } from "../user/userSlice";
-import CommentMaker from "./CommentMaker";
-import Comments from "./Comments";
+import CommentMaker from "../comment/CommentMaker";
+import Comments from "../comment/Comments";
 import DeletePostButton from "./DeletePostButton";
 import { Post } from "./interface";
 import LikePostButton from "./LikePostButton";
 import { toggleIsEdit, unsetIsEdit } from "./postSlice";
 import UpdatePostForm from "./UpdatePostForm";
+import { timeSetter } from "../../utils/timeSetter";
 
 interface Props {
   post: Post;
@@ -33,8 +34,8 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
   };
 
   return (
-    <div className="row w-75 justify-content-center mb-4">
-      <div className="col-8 rounded border p-3">
+    <div className="row w-100 justify-content-center mb-4">
+      <div className="col-10 col-lg-8 rounded border p-3">
         <div className="d-flex gap-4 align-items-center mb-2">
           <img
             style={{ width: "50px", height: "50px" }}
@@ -44,7 +45,9 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
           />
           <div className="d-flex flex-column flex-grow-1">
             <div>{post.owner.username}</div>
-            <small className=" text-black-50">{post.createdAt}</small>
+            <small className=" text-black-50">
+              {timeSetter(new Date(post.createdAt))}
+            </small>
           </div>
 
           <div>
@@ -63,6 +66,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
             )}
           </div>
         </div>
+
         {post.images.length > 0 && (
           <div className="overflow-hidden">
             <Carousel interval={null}>
@@ -95,7 +99,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
           </div>
         </div>
 
-        <div className="d-flex">
+        <div className="d-flex my-2">
           <LikePostButton post={post} stateIndex={stateIndex} />
           <button
             onClick={() => ref.current?.focus()}

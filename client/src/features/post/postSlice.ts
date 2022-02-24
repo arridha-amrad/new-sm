@@ -9,7 +9,11 @@ import {
   likePostAPI,
   updatePostAPI,
 } from "./postApi";
-import { Comment as IComment, DeleteCommentDTO } from "../comment/interface";
+import {
+  Comment as IComment,
+  DeleteCommentDTO,
+  LikeComment,
+} from "../comment/interface";
 
 const initialState: PostState = {
   alert: null,
@@ -91,6 +95,21 @@ export const postSlice = createSlice({
         state.posts[postIndex].likes.push(user);
       }
     },
+    setLikeComment: (state, action: PayloadAction<LikeComment>) => {
+      const { comment, isLiked, user } = action.payload;
+      for (let i = 0; i < state.posts.length; i++) {
+        if (state.posts[i]._id === comment.post) {
+          state.posts[i].comments.find(
+            (cmt) =>
+              cmt._id === comment._id &&
+              (isLiked
+                ? (cmt.likes = cmt.likes.filter((usr) => usr._id !== user._id))
+                : cmt.likes.push(user))
+          );
+          break;
+        }
+      }
+    },
     setComment: (state, action: PayloadAction<IComment>) => {
       const comment = action.payload;
       const post = state.posts.find((post) => post._id === comment.post);
@@ -120,10 +139,13 @@ export const postSlice = createSlice({
     builder.addCase(updatePostAction.fulfilled, (state, action) => {
       state.isLoading = false;
       const post = action.payload;
-      state.posts = state.posts.map((pst) => ({
-        ...pst,
-        body: pst._id === post._id ? post.body : pst.body,
-      }));
+      for (let i = 0; i < state.posts.length; i++) {
+        if (state.posts[i]._id === post._id) {
+          state.posts[i].body = post.body;
+          break;
+        }
+        continue;
+      }
     });
     builder.addCase(updatePostAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -173,6 +195,7 @@ export const {
   removeComment,
   toggleIsEdit,
   unsetIsEdit,
+  setLikeComment,
 } = postSlice.actions;
 
 export const selectPostState = (state: RootState) => state.post;
