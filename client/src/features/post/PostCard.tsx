@@ -1,7 +1,7 @@
 import { FC, useRef } from "react";
 import Carousel from "react-bootstrap/esm/Carousel";
 import Dropdown from "react-bootstrap/esm/Dropdown";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import CommentIcon from "../../components/CommentIcon";
 import { selectUserState } from "../user/userSlice";
 import CommentMaker from "./CommentMaker";
@@ -9,6 +9,8 @@ import Comments from "./Comments";
 import DeletePostButton from "./DeletePostButton";
 import { Post } from "./interface";
 import LikePostButton from "./LikePostButton";
+import { toggleIsEdit, unsetIsEdit } from "./postSlice";
+import UpdatePostForm from "./UpdatePostForm";
 
 interface Props {
   post: Post;
@@ -18,8 +20,18 @@ interface Props {
 const PostCard: FC<Props> = ({ post, stateIndex }) => {
   const ref = useRef<HTMLInputElement>(null);
 
+  const dispatch = useAppDispatch();
+
   const { loginUser } = useAppSelector(selectUserState);
-  const updatePost = () => {};
+
+  const setEdit = () => {
+    dispatch(toggleIsEdit(stateIndex));
+  };
+
+  const hideFormEditPost = () => {
+    dispatch(unsetIsEdit(stateIndex));
+  };
+
   return (
     <div className="row w-75 justify-content-center mb-4">
       <div className="col-8 rounded border p-3">
@@ -37,16 +49,14 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
 
           <div>
             {post.owner._id === loginUser?._id && (
-              <Dropdown className="d-inline mx-2" autoClose={false}>
+              <Dropdown className="d-inline mx-2" autoClose="inside">
                 <Dropdown.Toggle
                   className="bg-secondary rounded-circle"
                   id="dropdown-autoclose-outside"
                 />
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={updatePost}>
-                    Update Post
-                  </Dropdown.Item>
+                  <Dropdown.Item onClick={setEdit}>Update Post</Dropdown.Item>
                   <DeletePostButton post={post} />
                 </Dropdown.Menu>
               </Dropdown>
@@ -74,14 +84,18 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
           </div>
         )}
 
-        <div className="my-2">
-          <div className=" text-body">
-            <span className="fw-bold me-2">{post.owner.username}</span>
-            {post.body}
+        <div className="my-3 d-flex align-items-start">
+          <div className="fw-bold me-2">{post.owner.username}</div>
+          <div className="flex-grow-1">
+            {post.isEdit ? (
+              <UpdatePostForm post={post} hideFormEditPost={hideFormEditPost} />
+            ) : (
+              post.body
+            )}
           </div>
         </div>
 
-        <div className="fs-2 mb-3 d-flex border rounded-3">
+        <div className="d-flex">
           <LikePostButton post={post} stateIndex={stateIndex} />
           <button
             onClick={() => ref.current?.focus()}
@@ -90,7 +104,10 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
             <CommentIcon />
           </button>
         </div>
-        <Comments comments={post.comments} />
+
+        <div>
+          <Comments comments={post.comments} />
+        </div>
         <CommentMaker post={post} ref={ref} />
       </div>
     </div>

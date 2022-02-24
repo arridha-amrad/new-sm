@@ -1,8 +1,11 @@
 import React, { FormEvent, HTMLProps } from "react";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import useForm from "../../utils/useForm";
+import {
+  createCommentAction,
+  selectCommentState,
+} from "../comment/commentSlice";
 import { Post } from "./interface";
-import { createCommentAction } from "./postSlice";
 
 type InputProps = HTMLProps<HTMLInputElement>;
 
@@ -14,7 +17,9 @@ const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
   ({ post }, ref) => {
     const dispatch = useAppDispatch();
 
-    const { state, onChange } = useForm({
+    const { isLoadingComment } = useAppSelector(selectCommentState);
+
+    const { state, onChange, setState } = useForm({
       body: "",
     });
 
@@ -26,7 +31,14 @@ const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
           postId: post._id,
         })
       );
+      if (res.meta.requestStatus === "fulfilled") {
+        setState({
+          ...state,
+          body: "",
+        });
+      }
     };
+
     return (
       <form onSubmit={onSubmit} className="d-flex w-100 gap-2">
         <input
@@ -37,7 +49,11 @@ const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
           className="form-control w-100"
           placeholder="comment..."
         />
-        <button type="submit" className="btn btn-primary">
+        <button
+          disabled={isLoadingComment || state.body.length === 0}
+          type="submit"
+          className="btn btn-primary"
+        >
           Send
         </button>
       </form>

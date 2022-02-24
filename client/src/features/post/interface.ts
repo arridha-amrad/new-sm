@@ -1,5 +1,6 @@
 import { Alert } from "../alert/interface";
 import { User } from "../user/interface";
+import { Comment } from "../comment/interface";
 
 export interface Post {
   _id: string;
@@ -10,16 +11,7 @@ export interface Post {
   likes: User[];
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface Comment {
-  _id: string;
-  owner: User;
-  post: string;
-  body: string;
-  likes: User[];
-  createdAt: Date;
-  updatedAt: Date;
+  isEdit: boolean;
 }
 
 export interface PostState {
@@ -27,4 +19,9 @@ export interface PostState {
   posts: Post[];
   post: Post | null;
   alert: Alert | null;
+}
+
+export interface UpdatePostDTO {
+  body: string;
+  postId: string;
 }

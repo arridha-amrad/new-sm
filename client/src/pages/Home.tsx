@@ -6,7 +6,7 @@ import Navbar from "../components/AppBar";
 import HomeProfile from "../components/HomeProfile";
 import { selectUserState } from "../features/user/userSlice";
 import HomePosts from "../components/HomePosts";
-import PostMaker from "../features/post/postMaker";
+import PostMaker from "../features/post/PostMaker";
 
 const Home = () => {
   const { loginUser } = useAppSelector(selectUserState);

@@ -74,7 +74,7 @@ const PostMaker = () => {
         <div className="d-flex gap-2 justify-content-between align-items-center ">
           <div className="d-flex gap-2 align-items-center">
             <button
-              disabled={isLoading}
+              disabled={isLoading || !state.body}
               onClick={createPost}
               type="submit"
               className="btn btn-primary"
