@@ -110,7 +110,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
         </div>
 
         <div>
-          <Comments comments={post.comments} />
+          <Comments comments={post.comments} postIndex={stateIndex} />
         </div>
         <CommentMaker post={post} ref={ref} />
       </div>

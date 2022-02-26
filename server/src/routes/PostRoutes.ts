@@ -8,6 +8,7 @@ import {
   getPosts,
   likeComment,
   likePost,
+  replyComment,
   updateComment,
   updatePost,
 } from '../controllers/PostController';
@@ -22,6 +23,7 @@ router.post('/create', verifyAccessToken, createPost);
 router.post('/like/:postId', verifyAccessToken, likePost);
 router.post('/comment/:postId', verifyAccessToken, createComment);
 router.post('/comment/like/:commentId', verifyAccessToken, likeComment);
+router.post('/comment/reply/:commentId', verifyAccessToken, replyComment);
 
 router.delete('/:postId', verifyAccessToken, deletePost);
 router.delete('/comment/:commentId', verifyAccessToken, deleteComment);

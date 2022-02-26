@@ -11,8 +11,11 @@ import {
 } from "./postApi";
 import {
   Comment as IComment,
+  CommentReply,
   DeleteCommentDTO,
   LikeComment,
+  SetCommentReply,
+  UnsetReplyCommentForm,
 } from "../comment/interface";
 
 const initialState: PostState = {
@@ -79,6 +82,28 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    setShowReplyCommentInput: (state, action: PayloadAction<IComment>) => {
+      const comment = action.payload;
+      const indexPost = state.posts.findIndex(
+        (post) => post._id === comment.post
+      );
+      state.posts[indexPost].comments = state.posts[indexPost].comments.map(
+        (cmt) => ({
+          ...cmt,
+          isShowInput: cmt._id === comment._id,
+        })
+      );
+    },
+    unsetReplyCommentForm: (
+      state,
+      action: PayloadAction<UnsetReplyCommentForm>
+    ) => {
+      const { comment, commentIndex } = action.payload;
+      const indexPost = state.posts.findIndex(
+        (post) => post._id === comment.post
+      );
+      state.posts[indexPost].comments[commentIndex].isShowInput = false;
+    },
     toggleIsEdit: (state, action: PayloadAction<number>) => {
       state.posts[action.payload].isEdit = !state.posts[action.payload].isEdit;
     },
@@ -130,6 +155,12 @@ export const postSlice = createSlice({
       state.posts = state.posts.filter(
         (post) => post._id !== action.payload._id
       );
+    },
+    setCommentReply: (state, action: PayloadAction<SetCommentReply>) => {
+      const { reply, commentIndex, postIndex } = action.payload;
+      console.log("reply : ", reply);
+
+      state.posts[postIndex].comments[commentIndex].replies.push(reply);
     },
   },
   extraReducers: (builder) => {
@@ -196,6 +227,9 @@ export const {
   toggleIsEdit,
   unsetIsEdit,
   setLikeComment,
+  setShowReplyCommentInput,
+  unsetReplyCommentForm,
+  setCommentReply,
 } = postSlice.actions;
 
 export const selectPostState = (state: RootState) => state.post;

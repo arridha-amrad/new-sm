@@ -1,5 +1,5 @@
-import { Schema, Model, model } from "mongoose";
-import { IPostModel } from "./IPostModel";
+import { Schema, Model, model } from 'mongoose';
+import { IPostModel } from './IPostModel';
 
 const PostSchema = new Schema<IPostModel, Model<IPostModel>>(
   {
@@ -10,21 +10,21 @@ const PostSchema = new Schema<IPostModel, Model<IPostModel>>(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true
+      ref: 'User',
+      required: true,
     },
     comments: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: 'Comment',
       },
     ],
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
-      }
-    ]
+        ref: 'User',
+      },
+    ],
   },
   {
     timestamps: true,

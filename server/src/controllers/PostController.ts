@@ -15,6 +15,7 @@ import {
   findOneComment,
   removeComment,
 } from '../services/CommentService';
+import { makeReply } from '../services/CommentReplyService';
 
 export const createPost = async (req: Request, res: Response) => {
   const { body } = req.body;
@@ -221,6 +222,25 @@ export const likeComment = async (req: Request, res: Response) => {
       );
       return res.status(200).json({ comment: updatedComment });
     }
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+};
+
+export const replyComment = async (req: Request, res: Response) => {
+  // const { body } = req.body;
+  const loginUser = req.userId;
+  const { commentId } = req.params;
+  try {
+    const result = await findOneComment(commentId);
+
+    // const reply = makeReply({
+    //   body,
+    //   owner: loginUser,
+    //   comment: commentId,
+    // });
+    return res.status(200).json({ result });
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);
