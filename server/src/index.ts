@@ -11,6 +11,7 @@ import PostRoutes from './routes/PostRoutes';
 import fileUpload from 'express-fileupload';
 
 import { connect } from './database/mongo';
+import ReplyRoutes from './routes/ReplyRoutes';
 
 console.clear();
 
@@ -31,6 +32,7 @@ export const runServer = () => {
   app.use('/api/auth', AuthRoutes);
   app.use('/api/user', UserRoutes);
   app.use('/api/post', PostRoutes);
+  app.use('/api/reply', ReplyRoutes);
 
   const PORT = process.env.PORT;
   app.listen(PORT, () => {
@@ -40,7 +42,7 @@ export const runServer = () => {
   return app;
 };
 
-connect(process.env.DB_URI)
+connect(process.env.MONGO_DB_ATLAS_URI)
   .then(() => {
     runServer();
   })

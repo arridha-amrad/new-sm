@@ -42,6 +42,7 @@ export const createPost = async (req: Request, res: Response) => {
       files.forEach((file) => fs.unlinkSync(file.tempFilePath));
       return res.status(400).send('maximum a file size 1MB');
     }
+
     try {
       const imagesURL: string[] = [];
       for (let file of files) {
