@@ -21,6 +21,12 @@ const CommentSchema = new Schema<ICommentModel, Model<ICommentModel>>(
         ref: 'User',
       },
     ],
+    replies: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Reply',
+      },
+    ],
   },
   {
     timestamps: true,

@@ -10,13 +10,21 @@ import {
   updatePostAPI,
 } from "./postApi";
 import {
-  Comment as IComment,
-  CommentReply,
+  IComment,
   DeleteCommentDTO,
   LikeComment,
-  SetCommentReply,
   UnsetReplyCommentForm,
 } from "../comment/interface";
+import { WritableDraft } from "immer/dist/internal";
+import {
+  createReplyAPI,
+  deleteReplyAPI,
+} from "../replyComment/replyCommentApi";
+import {
+  ReplyComment,
+  ReplyCommentDTO,
+  ReplyCommentResult,
+} from "../replyComment/interface";
 
 const initialState: PostState = {
   alert: null,
@@ -73,6 +81,33 @@ export const likePostAction = createAsyncThunk(
   }
 );
 
+export const replyComment = createAsyncThunk(
+  "post/replyComment",
+  async (body: ReplyCommentDTO, thunkAPI) => {
+    try {
+      const { data } = await createReplyAPI(
+        body.body,
+        body.receiver,
+        body.commentId
+      );
+      return data.reply;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const deleteReplyAction = createAsyncThunk(
+  "post/deleteReply",
+  async (replyId: string, thunkAPI) => {
+    try {
+      await deleteReplyAPI(replyId);
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 interface LikePost {
   postIndex: number;
   user: User;
@@ -82,6 +117,12 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    replyCommentResult: (state, action: PayloadAction<ReplyCommentResult>) => {
+      const { commentIndex, postIndex, reply } = action.payload;
+      state.posts[postIndex].comments[commentIndex].replies.unshift(
+        reply as WritableDraft<ReplyComment>
+      );
+    },
     setShowReplyCommentInput: (state, action: PayloadAction<IComment>) => {
       const comment = action.payload;
       const indexPost = state.posts.findIndex(
@@ -135,7 +176,7 @@ export const postSlice = createSlice({
         }
       }
     },
-    setComment: (state, action: PayloadAction<IComment>) => {
+    setComment: (state, action) => {
       const comment = action.payload;
       const post = state.posts.find((post) => post._id === comment.post);
       if (post) {
@@ -155,12 +196,6 @@ export const postSlice = createSlice({
       state.posts = state.posts.filter(
         (post) => post._id !== action.payload._id
       );
-    },
-    setCommentReply: (state, action: PayloadAction<SetCommentReply>) => {
-      const { reply, commentIndex, postIndex } = action.payload;
-      console.log("reply : ", reply);
-
-      state.posts[postIndex].comments[commentIndex].replies.push(reply);
     },
   },
   extraReducers: (builder) => {
@@ -189,7 +224,7 @@ export const postSlice = createSlice({
     builder.addCase(getPostsAction.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getPostsAction.fulfilled, (state, action) => {
+    builder.addCase(getPostsAction.fulfilled, (state, action: any) => {
       state.isLoading = false;
       state.posts = action.payload;
     });
@@ -205,8 +240,9 @@ export const postSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(createPostAction.fulfilled, (state, action) => {
+      const newPost = action.payload as WritableDraft<Post>;
       state.isLoading = false;
-      state.posts.splice(0, 0, action.payload);
+      state.posts.unshift(newPost);
     });
     builder.addCase(createPostAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -220,6 +256,7 @@ export const postSlice = createSlice({
 });
 
 export const {
+  replyCommentResult,
   setLikePost,
   removePost,
   setComment,
@@ -229,7 +266,6 @@ export const {
   setLikeComment,
   setShowReplyCommentInput,
   unsetReplyCommentForm,
-  setCommentReply,
 } = postSlice.actions;
 
 export const selectPostState = (state: RootState) => state.post;

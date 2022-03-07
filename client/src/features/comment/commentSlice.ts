@@ -1,26 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { Alert } from "../alert/interface";
 import { removeComment, setComment, setLikeComment } from "../post/postSlice";
 import {
   createCommentAPI,
   deleteCommentAPI,
   likeCommentAPI,
 } from "./commentApi";
-import {
-  CommentState,
-  CreateCommentDTO,
-  DeleteCommentDTO,
-  LikeComment,
-} from "./interface";
-
-const initialState: CommentState = {
-  comment: null,
-  comments: [],
-  isFetchingComment: false,
-  isLoadingComment: false,
-  alert: null,
-};
+import { CreateCommentDTO, DeleteCommentDTO, LikeComment } from "./interface";
 
 export const likeCommentAction = createAsyncThunk(
   "comment/like",
@@ -62,24 +48,8 @@ export const deleteCommentAction = createAsyncThunk(
 
 export const commentSlice = createSlice({
   name: "comment",
-  initialState,
+  initialState: {},
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(createCommentAction.pending, (state) => {
-      state.isLoadingComment = true;
-    });
-    builder.addCase(createCommentAction.fulfilled, (state) => {
-      state.isLoadingComment = false;
-    });
-    builder.addCase(createCommentAction.rejected, (state, action) => {
-      state.isLoadingComment = false;
-      const newAlert: Alert = {
-        text: action.payload as string,
-        type: "error",
-      };
-      state.alert = newAlert;
-    });
-  },
 });
 
 // export const {} = commentSlice.actions;

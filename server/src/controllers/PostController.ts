@@ -15,7 +15,6 @@ import {
   findOneComment,
   removeComment,
 } from '../services/CommentService';
-import { makeReply } from '../services/CommentReplyService';
 
 export const createPost = async (req: Request, res: Response) => {
   const { body } = req.body;

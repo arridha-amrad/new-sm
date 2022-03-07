@@ -1,23 +1,9 @@
-import { Alert } from "../alert/interface";
+import { ReplyComment } from "../replyComment/interface";
 import { User } from "../user/interface";
 
-export interface CommentReply {
-  owner: User;
-  comment: Comment;
-  body: string;
-  likes: User[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface SetCommentReply {
-  reply: CommentReply;
-  commentIndex: number;
-  postIndex: number;
-}
-
-export interface Comment {
+export interface IComment {
   _id: string;
+  replies: ReplyComment[];
   owner: User;
   post: string;
   body: string;
@@ -25,15 +11,6 @@ export interface Comment {
   createdAt: Date;
   updatedAt: Date;
   isShowInput: boolean;
-  replies: CommentReply[];
-}
-
-export interface CommentState {
-  comments: Comment[];
-  comment: Comment | null;
-  isLoadingComment: boolean;
-  isFetchingComment: boolean;
-  alert: Alert | null;
 }
 
 export interface CreateCommentDTO {
@@ -47,12 +24,12 @@ export interface DeleteCommentDTO {
 }
 
 export interface LikeComment {
-  comment: Comment;
+  comment: IComment;
   isLiked: boolean;
   user: User;
 }
 
 export interface UnsetReplyCommentForm {
   commentIndex: number;
-  comment: Comment;
+  comment: IComment;
 }

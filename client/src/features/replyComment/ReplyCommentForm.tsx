@@ -1,16 +1,21 @@
-import React, { FC, FormEvent, HTMLProps } from "react";
+import React, { FormEvent, HTMLProps } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import useForm from "../../utils/useForm";
-import { setCommentReply, unsetReplyCommentForm } from "../post/postSlice";
+import { IComment } from "../comment/interface";
+import {
+  replyComment,
+  replyCommentResult,
+  unsetReplyCommentForm,
+} from "../post/postSlice";
 import { selectUserState } from "../user/userSlice";
-import { Comment } from "./interface";
+import { ReplyComment } from "./interface";
 
 type InputProps = HTMLProps<HTMLInputElement>;
 
 interface Props extends InputProps {
   stateIndex: number;
   postIndex: number;
-  comment: Comment;
+  comment: IComment;
 }
 
 const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
@@ -18,7 +23,7 @@ const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
     const dispatch = useAppDispatch();
     const { loginUser } = useAppSelector(selectUserState);
 
-    const { onChange, setState, state } = useForm({
+    const { onChange, state } = useForm({
       body: `@${comment.owner.username}`,
     });
 
@@ -31,23 +36,25 @@ const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
       );
     };
 
-    const onSubmit = (e: FormEvent) => {
+    const onSubmit = async (e: FormEvent) => {
       e.preventDefault();
-      const date = new Date().toLocaleDateString();
-      dispatch(
-        setCommentReply({
-          commentIndex: stateIndex,
-          postIndex: postIndex,
-          reply: {
-            body: state.body,
-            comment,
-            likes: [],
-            owner: loginUser!,
-            createdAt: date,
-            updatedAt: date,
-          },
+      const res = await dispatch(
+        replyComment({
+          commentId: comment._id,
+          body: state.body,
+          receiver: comment.owner._id,
         })
       );
+      if (res.meta.requestStatus === "fulfilled") {
+        const newReply = res.payload as ReplyComment;
+        dispatch(
+          replyCommentResult({
+            commentIndex: stateIndex,
+            postIndex: postIndex,
+            reply: newReply,
+          })
+        );
+      }
     };
 
     return (

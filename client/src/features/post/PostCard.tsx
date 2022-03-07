@@ -12,6 +12,7 @@ import LikePostButton from "./LikePostButton";
 import { toggleIsEdit, unsetIsEdit } from "./postSlice";
 import UpdatePostForm from "./UpdatePostForm";
 import { timeSetter } from "../../utils/timeSetter";
+import { setLikes } from "../../utils/likeHelpers";
 
 interface Props {
   post: Post;
@@ -68,15 +69,16 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
         </div>
 
         {post.images.length > 0 && (
-          <div className="overflow-hidden">
+          <div className="overflow-hidden d-flex justify-content-center bg-black bg-opacity-25">
             <Carousel interval={null}>
               {post.images.map((image, index) => (
                 <Carousel.Item key={index}>
                   <img
                     className=" img-fluid rounded"
                     style={{
-                      width: "100%",
+                      width: "auto",
                       height: "100%",
+                      maxHeight: "700px",
                       objectFit: "fill",
                     }}
                     src={image}
@@ -99,7 +101,8 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
           </div>
         </div>
 
-        <div className="d-flex my-2">
+        <div className="d-flex my-2 align-items-center">
+          {post.likes.length > 0 && <span>{post.likes.length}</span>}
           <LikePostButton post={post} stateIndex={stateIndex} />
           <button
             onClick={() => ref.current?.focus()}
@@ -108,6 +111,10 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
             <CommentIcon />
           </button>
         </div>
+
+        {post.likes.length > 0 && (
+          <div className="mb-3">Like by {setLikes(post.likes, loginUser!)}</div>
+        )}
 
         <div>
           <Comments comments={post.comments} postIndex={stateIndex} />

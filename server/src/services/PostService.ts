@@ -18,6 +18,10 @@ export const findPosts = async () => {
       populate: [
         {
           path: 'replies',
+          populate: {
+            path: 'sender',
+            select: 'username avatarURL',
+          },
         },
         { path: 'owner', select: 'username avatarURL' },
         { path: 'likes', select: 'username avatarURL' },
@@ -34,6 +38,13 @@ export const findOnePost = async (postId: string) => {
       path: 'comments',
       options: { sort: { createdAt: 'desc' } },
       populate: [
+        {
+          path: 'replies',
+          populate: {
+            path: 'sender',
+            select: 'username avatarURL',
+          },
+        },
         { path: 'owner', select: 'username avatarURL' },
         { path: 'likes', select: 'username avatarURL' },
       ],

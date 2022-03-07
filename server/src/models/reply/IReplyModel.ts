@@ -1,13 +1,12 @@
 import { Types } from 'mongoose';
-import { IReplyModel } from '../reply/IReplyModel';
 import { IUserModel } from '../user/IUserModel';
 
-export interface ICommentModel {
-  owner: Types.ObjectId;
-  post: Types.ObjectId;
+export interface IReplyModel {
+  sender: Types.ObjectId;
+  receiver: Types.ObjectId;
   body: string;
+  comment: Types.ObjectId;
   likes: Types.DocumentArray<IUserModel>;
-  replies: Types.DocumentArray<IReplyModel>;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -2,10 +2,10 @@ import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUserState } from "../user/userSlice";
 import { likeCommentAction } from "./commentSlice";
-import { Comment } from "./interface";
+import { IComment } from "./interface";
 
 interface Props {
-  comment: Comment;
+  comment: IComment;
 }
 
 const LikeCommentButton: FC<Props> = ({ comment }) => {

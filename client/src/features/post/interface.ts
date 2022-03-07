@@ -1,13 +1,13 @@
 import { Alert } from "../alert/interface";
+import { IComment } from "../comment/interface";
 import { User } from "../user/interface";
-import { Comment } from "../comment/interface";
 
 export interface Post {
   _id: string;
   body: string;
   owner: User;
   images: string[];
-  comments: Comment[];
+  comments: IComment[];
   likes: User[];
   createdAt: Date;
   updatedAt: Date;

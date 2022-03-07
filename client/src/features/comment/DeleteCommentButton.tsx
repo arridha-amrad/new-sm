@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { deleteCommentAction } from "./commentSlice";
-import { Comment } from "./interface";
+import { IComment } from "./interface";
 
 interface Props {
-  comment: Comment;
+  comment: IComment;
 }
 
 const DeleteCommentButton: FC<Props> = ({ comment }) => {

@@ -1,7 +1,7 @@
 import React, { FormEvent, HTMLProps } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import useForm from "../../utils/useForm";
-import { createCommentAction, selectCommentState } from "./commentSlice";
+import { createCommentAction } from "./commentSlice";
 import { Post } from "../post/interface";
 
 type InputProps = HTMLProps<HTMLInputElement>;
@@ -13,8 +13,6 @@ interface Props extends InputProps {
 const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
   ({ post }, ref) => {
     const dispatch = useAppDispatch();
-
-    const { isLoadingComment } = useAppSelector(selectCommentState);
 
     const { state, onChange, setState } = useForm({
       body: "",
@@ -47,7 +45,7 @@ const CommentMaker = React.forwardRef<HTMLInputElement, Props>(
           placeholder="comment..."
         />
         <button
-          disabled={isLoadingComment || state.body.length === 0}
+          disabled={state.body.length === 0}
           type="submit"
           className="btn btn-primary"
         >
