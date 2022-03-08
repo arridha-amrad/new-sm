@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
 import GoogleLogin from "../components/GoogleLogin";
-import MyAlert from "../components/MyAlert";
-import { selectUserState, unsetAlert } from "../features/user/userSlice";
 import LoginForm from "../features/user/Login";
 
 const Login = () => {
-  const dispatch = useAppDispatch();
-  const { alert } = useAppSelector(selectUserState);
   return (
     <section className="d-flex flex-column min-vh-100 overflow-hidden">
       <div className="flex-grow-1 d-flex align-items-center  justify-content-center">
@@ -16,7 +11,6 @@ const Login = () => {
           className="d-flex flex-column gap-3 p-4 border rounded shadow-sm"
         >
           <h1 className="fw-bold">Login</h1>
-          <MyAlert alert={alert} close={() => dispatch(unsetAlert())} />
 
           <LoginForm />
 

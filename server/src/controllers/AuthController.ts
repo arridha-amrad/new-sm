@@ -113,16 +113,16 @@ export const loginHandler = async (req: Request, res: Response) => {
     // get user from DB
     const user = await UserServices.findUserByUsernameOrEmail(identity);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).send('User not found');
     }
     if (!user.isVerified) {
-      return res.status(400).json({ message: msg.emailNotVerified });
+      return res.status(400).send(msg.emailNotVerified);
     }
 
     // compare the password
     const isMatch = await argon2.verify(user.password!, password!);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Password not match' });
+      return res.status(400).send('Password not match');
     }
 
     // create accessToken and refreshToken

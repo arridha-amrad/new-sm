@@ -19,6 +19,7 @@ const Register = () => {
           <h1 className="fw-bold">Register</h1>
 
           <MyAlert alert={alert} close={() => dispatch(unsetAlert())} />
+
           <RegisterForm />
           <small className=" text-center">
             Have an account?
