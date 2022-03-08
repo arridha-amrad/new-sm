@@ -17,7 +17,9 @@ export const timeSetter = (date: Date) => {
   const toDate = date;
   const diff = fromDate.getTime() - toDate.getTime();
   let result = "";
-  if (diff > 60 * 1000 && diff < 60 * 1000 * 60) {
+  if (diff >= 0 && diff < 60 * 1000) {
+    result = "just now";
+  } else if (diff > 60 * 1000 && diff < 60 * 1000 * 60) {
     const minsDiff = Math.floor(diff / 1000 / 60);
     result = `${minsDiff.toString()} minutes ago`;
   } else if (diff > 60 * 60 * 1000 && diff < 60 * 1000 * 60 * 24) {

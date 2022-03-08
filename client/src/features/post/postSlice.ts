@@ -117,9 +117,16 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    deleteReplyComment: (state, action: PayloadAction<ReplyCommentResult>) => {
+      const { commentIndex, postIndex, reply } = action.payload;
+      const comment = state.posts[postIndex].comments[commentIndex];
+      comment.replies = comment.replies.filter(
+        (rply) => rply._id !== reply._id
+      );
+    },
     replyCommentResult: (state, action: PayloadAction<ReplyCommentResult>) => {
       const { commentIndex, postIndex, reply } = action.payload;
-      state.posts[postIndex].comments[commentIndex].replies.unshift(
+      state.posts[postIndex].comments[commentIndex].replies.push(
         reply as WritableDraft<ReplyComment>
       );
     },
@@ -256,6 +263,7 @@ export const postSlice = createSlice({
 });
 
 export const {
+  deleteReplyComment,
   replyCommentResult,
   setLikePost,
   removePost,

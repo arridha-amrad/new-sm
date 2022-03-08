@@ -4,7 +4,9 @@ import { IReplyModel } from '../models/reply/IReplyModel';
 
 export const makeReply = async (data: AnyKeys<IReplyModel>) => {
   const newReply = new ReplyModel(data);
-  return newReply.save();
+  const reply = await newReply.save();
+  const populatedReply = await reply.populate('sender', 'username avatarURL');
+  return populatedReply;
 };
 
 export const deleteReply = async (replyId: string) => {

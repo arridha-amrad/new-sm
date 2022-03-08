@@ -51,7 +51,7 @@ const PostMaker = () => {
   };
 
   return (
-    <div className="flex-grow-1 p-2">
+    <div className="mt-2">
       <div className="d-flex flex-column gap-3">
         <textarea
           onChange={onChange}

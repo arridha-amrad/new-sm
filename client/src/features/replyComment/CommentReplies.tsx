@@ -6,10 +6,12 @@ import DeleteReplyButton from "./DeleteReplyButton";
 import { ReplyComment } from "./interface";
 
 interface Props {
+  postIndex: number;
+  commentIndex: number;
   replies: ReplyComment[];
 }
 
-const CommentReplies: FC<Props> = ({ replies }) => {
+const CommentReplies: FC<Props> = ({ replies, postIndex, commentIndex }) => {
   const { loginUser } = useAppSelector(selectUserState);
   return (
     <div className="mt-2">
@@ -34,7 +36,11 @@ const CommentReplies: FC<Props> = ({ replies }) => {
               </small>
 
               {reply.sender._id === loginUser?._id && (
-                <DeleteReplyButton reply={reply} />
+                <DeleteReplyButton
+                  commentIndex={commentIndex}
+                  postIndex={postIndex}
+                  reply={reply}
+                />
               )}
             </div>
             <small>{reply.body}</small>

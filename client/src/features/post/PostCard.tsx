@@ -35,8 +35,8 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
   };
 
   return (
-    <div className="row w-100 justify-content-center mb-4">
-      <div className="col-10 col-lg-8 rounded border p-3">
+    <div className="row justify-content-center mb-4">
+      <div className="col-12 col-lg-8 rounded border p-3">
         <div className="d-flex gap-4 align-items-center mb-2">
           <img
             style={{ width: "50px", height: "50px" }}
@@ -69,7 +69,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
         </div>
 
         {post.images.length > 0 && (
-          <div className="overflow-hidden d-flex justify-content-center bg-black bg-opacity-25">
+          <div className="overflow-hidden d-flex justify-content-center bg-black bg-opacity-10">
             <Carousel interval={null}>
               {post.images.map((image, index) => (
                 <Carousel.Item key={index}>

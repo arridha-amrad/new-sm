@@ -1,19 +1,29 @@
 import { FC } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useAppDispatch } from "../../app/hooks";
-import { deleteReplyAction } from "../post/postSlice";
+import { deleteReplyAction, deleteReplyComment } from "../post/postSlice";
 import { ReplyComment } from "./interface";
 
 interface Props {
+  postIndex: number;
+  commentIndex: number;
   reply: ReplyComment;
 }
 
-const DeleteReplyButton: FC<Props> = ({ reply }) => {
+const DeleteReplyButton: FC<Props> = ({ reply, commentIndex, postIndex }) => {
   const dispatch = useAppDispatch();
 
-  const deleteReply = () => {
-    console.log(reply);
-    dispatch(deleteReplyAction(reply._id));
+  const deleteReply = async () => {
+    const res = await dispatch(deleteReplyAction(reply._id));
+    if (res.meta.requestStatus === "fulfilled") {
+      dispatch(
+        deleteReplyComment({
+          commentIndex,
+          postIndex,
+          reply,
+        })
+      );
+    }
   };
 
   return (

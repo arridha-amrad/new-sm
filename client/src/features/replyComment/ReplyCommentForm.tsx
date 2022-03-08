@@ -1,5 +1,5 @@
 import React, { FormEvent, HTMLProps } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import useForm from "../../utils/useForm";
 import { IComment } from "../comment/interface";
 import {
@@ -7,7 +7,7 @@ import {
   replyCommentResult,
   unsetReplyCommentForm,
 } from "../post/postSlice";
-import { selectUserState } from "../user/userSlice";
+
 import { ReplyComment } from "./interface";
 
 type InputProps = HTMLProps<HTMLInputElement>;
@@ -21,9 +21,8 @@ interface Props extends InputProps {
 const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
   ({ comment, stateIndex, postIndex }, ref) => {
     const dispatch = useAppDispatch();
-    const { loginUser } = useAppSelector(selectUserState);
 
-    const { onChange, state } = useForm({
+    const { onChange, state, setState } = useForm({
       body: `@${comment.owner.username}`,
     });
 
@@ -54,29 +53,36 @@ const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
             reply: newReply,
           })
         );
+        setState({
+          body: "",
+        });
+        hideForm();
       }
     };
 
     return (
-      <form
-        className={`${comment.isShowInput ? "d-flex" : "d-none"} gap-1 mt-2`}
-        onSubmit={onSubmit}
+      <div
+        className={`${
+          comment.isShowInput ? "d-flex" : "d-none"
+        } gap-1 flex-grow-1 mt-2`}
       >
-        <input
-          ref={ref}
-          onChange={onChange}
-          name="body"
-          value={state.body}
-          placeholder="reply..."
-          className="form-control form-control-sm"
-        />
-        <button type="submit" className="btn btn-primary btn-sm">
-          reply
-        </button>
+        <form className="d-flex gap-2 flex-grow-1" onSubmit={onSubmit}>
+          <input
+            ref={ref}
+            onChange={onChange}
+            name="body"
+            value={state.body}
+            placeholder="reply..."
+            className="form-control form-control-sm w-100"
+          />
+          <button type="submit" className="btn btn-primary btn-sm">
+            reply
+          </button>
+        </form>
         <button onClick={hideForm} className="btn btn-secondary btn-sm">
           cancel
         </button>
-      </form>
+      </div>
     );
   }
 );

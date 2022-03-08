@@ -21,13 +21,19 @@ const Comments: FC<Props> = ({ comments, postIndex }) => {
   const showReplyCommentForm = (comment: IComment) => {
     dispatch(setShowReplyCommentInput(comment));
   };
+  const sumComments = () => {
+    let repliesLength = 0;
+    const commentLength = comments.length;
+    comments.forEach((comment) => (repliesLength += comment.replies.length));
+    return commentLength + repliesLength;
+  };
   const { loginUser } = useAppSelector(selectUserState);
   return (
     <>
       {comments.length > 0 && (
         <Accordion flush>
           <Accordion.Item eventKey="0">
-            <Accordion.Header>{comments.length} comments</Accordion.Header>
+            <Accordion.Header>{sumComments()} comments</Accordion.Header>
             <Accordion.Body>
               {comments.map((comment, index) => {
                 return (
@@ -76,7 +82,11 @@ const Comments: FC<Props> = ({ comments, postIndex }) => {
                       />
 
                       {comment.replies && (
-                        <CommentReplies replies={comment.replies} />
+                        <CommentReplies
+                          commentIndex={index}
+                          postIndex={postIndex}
+                          replies={comment.replies}
+                        />
                       )}
                     </div>
 
