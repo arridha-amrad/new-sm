@@ -1,11 +1,11 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelCase */
 import { Request, Response } from 'express';
 import axios from 'axios';
 import qs from 'qs';
-import { signAccessToken, signRefreshToken } from '../services/JwtServices';
-import { findOne, save } from '../services/UserServices';
-import codeGenerator from '../utils/CodeGenerator';
-import { setCookieOptions } from '../utils/CookieHelpers';
+import { signAccessToken, signRefreshToken } from '../../services/JwtServices';
+import codeGenerator from '../../utils/CodeGenerator';
+import { setCookieOptions } from '../../utils/CookieHelpers';
+import { createUser, findUser } from '../../services/UserServices';
 
 interface GoogleTokensResult {
   access_token: string;
@@ -26,7 +26,7 @@ interface GoogleUserResult {
   locale: string;
 }
 
-export const getGoogleUser = async (
+const getGoogleUser = async (
   id_token: string,
   access_token: string
 ): Promise<GoogleUserResult> => {
@@ -46,7 +46,7 @@ export const getGoogleUser = async (
   }
 };
 
-export async function getGoogleOAuthTokens({
+async function getGoogleOAuthTokens({
   code,
 }: {
   code: string;
@@ -79,7 +79,7 @@ export async function getGoogleOAuthTokens({
   }
 }
 
-export const googleOauthHandler = async (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   // get the code from qs
   const code = req.query.code as string;
   try {
@@ -87,11 +87,10 @@ export const googleOauthHandler = async (req: Request, res: Response) => {
     const { access_token, id_token } = await getGoogleOAuthTokens({ code });
     // get user with tokens
     const googleUser = await getGoogleUser(id_token, access_token);
-    // upsert the user
     if (!googleUser.verified_email) {
       res.status(403).json({ message: 'Google account is not verified' });
     }
-    const user = await findOne({ email: googleUser.email });
+    const user = await findUser({ email: googleUser.email });
 
     if (user && user.strategy !== 'google') {
       return res.redirect(
@@ -103,7 +102,7 @@ export const googleOauthHandler = async (req: Request, res: Response) => {
     const { email, family_name, given_name, name, picture } = googleUser;
     let myUser;
     if (!user) {
-      const newUser = await save({
+      const newUser = await createUser({
         requiredAuthAction: 'none',
         avatarURL: picture,
         email,

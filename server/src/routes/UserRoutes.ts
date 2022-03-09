@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { me } from '../controllers/UserController';
+import me from '../controllers/user/me';
 import { verifyAccessToken } from '../services/JwtServices';
 
 // eslint-disable-next-line new-cap

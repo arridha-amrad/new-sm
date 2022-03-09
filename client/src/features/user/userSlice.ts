@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import axiosInstance from "../../utils/axiosInterceptor";
 import { Alert } from "../alert/interface";
 import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
 import { getLoginUserAPI, loginAPI, logoutAPI, registerAPI } from "./userApi";
