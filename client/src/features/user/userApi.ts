@@ -6,7 +6,10 @@ export const registerAPI = async (data: RegisterDTO) => {
 };
 
 export const loginAPI = async (data: LoginDTO) => {
-  return axiosInstance.post<{ user: User }>("/api/auth/login", data);
+  return axiosInstance.post<{ user: User; token: string }>(
+    "/api/auth/login",
+    data
+  );
 };
 
 export const refreshTokenAPI = async () => {

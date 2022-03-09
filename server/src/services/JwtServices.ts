@@ -86,7 +86,8 @@ export function verifyAccessToken(
   res: Response,
   next: NextFunction
 ) {
-  const token = req.headers['authorization']?.split('Bearer ')[1];
+  const bearerToken = req.headers['authorization'] as string;
+  const token = bearerToken.split('Bearer ')[1];
 
   if (!token) {
     return res.status(401).send('no token');
@@ -98,7 +99,7 @@ export function verifyAccessToken(
     accessTokenVerifyOptions,
     (err, payload) => {
       if (err && err.message === 'jwt expired') {
-        return res.status(401).send('token expired');
+        return res.status(403).send('token expired');
       }
       const verifyTokenPayload = payload as AccessTokenPayloadType | undefined;
 

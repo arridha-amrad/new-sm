@@ -23,4 +23,5 @@ export interface AuthState {
   loginUser: User | null;
   isLoading: boolean;
   alert: Alert | null;
+  token: string | null;
 }

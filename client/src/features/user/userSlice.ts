@@ -9,6 +9,7 @@ const initialState: AuthState = {
   isLoading: false,
   loginUser: null,
   alert: null,
+  token: null,
 };
 
 export const getLoginUser = createAsyncThunk("user/setLoginUser", async () => {
@@ -33,7 +34,7 @@ export const loginAction = createAsyncThunk(
   async (body: LoginDTO, thunkAPI) => {
     try {
       const { data } = await loginAPI(body);
-      return data.user;
+      return data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
@@ -48,6 +49,11 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setToken: (state, action) => {
+      console.log("new token is stored");
+
+      state.token = action.payload;
+    },
     unsetAlert: (state) => {
       state.alert = null;
     },
@@ -70,8 +76,10 @@ export const userSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(loginAction.fulfilled, (state, action) => {
+      const { user, token } = action.payload;
       state.isLoading = false;
-      state.loginUser = action.payload;
+      state.loginUser = user;
+      state.token = token;
     });
     builder.addCase(loginAction.rejected, (state, action) => {
       const alert: Alert = {
@@ -103,7 +111,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { unsetAlert, setLoginUser } = userSlice.actions;
+export const { unsetAlert, setLoginUser, setToken } = userSlice.actions;
 export const selectUserState = (state: RootState) => state.user;
 
 export default userSlice.reducer;

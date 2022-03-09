@@ -21,7 +21,7 @@ export default async (req: Request, res: Response) => {
         if (jwtVersion === user?.jwtVersion) {
           const newAccessToken = await signAccessToken(userId);
           const newRefreshToken = await signRefreshToken(user);
-          res
+          return res
             .cookie(
               process.env.COOKIE_REFRESH_TOKEN,
               newRefreshToken,
@@ -30,11 +30,10 @@ export default async (req: Request, res: Response) => {
             .json({ token: newAccessToken });
         }
       }
-    } else {
-      res.sendStatus(401);
     }
+    return res.sendStatus(401);
   } catch (err) {
     console.log(err);
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 };

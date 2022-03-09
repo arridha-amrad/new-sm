@@ -9,16 +9,6 @@ import HomePosts from "../components/HomePosts";
 import PostMaker from "../features/post/PostMaker";
 
 const Home = () => {
-  const { loginUser } = useAppSelector(selectUserState);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loginUser) {
-      navigate("/login");
-    }
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <>
       <Navbar />
