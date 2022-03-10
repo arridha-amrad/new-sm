@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
-import LoginForm from "../features/user/Login";
+import LoginForm from "../features/authentication/Login";
 
 const Login = () => {
   return (

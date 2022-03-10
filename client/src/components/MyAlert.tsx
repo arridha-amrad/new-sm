@@ -1,8 +1,8 @@
 import { FC, MouseEventHandler } from "react";
-import { Alert as AlertStore } from "../features/alert/interface";
+import { Alert } from "../utils/useFormHooks";
 
 interface Props {
-  alert: AlertStore | null;
+  alert: Alert | null;
   close: MouseEventHandler<HTMLButtonElement>;
 }
 

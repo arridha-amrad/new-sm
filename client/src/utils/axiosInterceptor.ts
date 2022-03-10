@@ -2,6 +2,11 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
+let token = "";
+
+export const getToken = () => token;
+export const setToken = (newToken: string) => (token = newToken);
+
 const axiosInstance = axios.create({
   baseURL: baseURL,
   withCredentials: true,
@@ -10,6 +15,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     config.headers!["Content-Type"] = "application/json";
+    config.headers!["Authorization"] = getToken();
     return config;
   },
   (error) => {
@@ -28,6 +34,8 @@ axiosInstance.interceptors.response.use(
       return axiosInstance
         .get<{ token: string }>("/api/auth/refresh-token")
         .then(({ data }) => {
+          console.log("token refresh : ", data.token);
+
           prevRequest.headers["Authorization"] = data.token;
           return axios(prevRequest);
         })

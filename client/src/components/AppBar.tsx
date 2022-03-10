@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/esm/Container";
 import Nav from "react-bootstrap/esm/Nav";
 import Navbar from "react-bootstrap/esm/Navbar";
-import LogoutButton from "../features/user/Logout";
+import LogoutButton from "../features/authentication/Logout";
 
 const AppBar = () => {
   return (

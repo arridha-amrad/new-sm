@@ -1,5 +1,5 @@
 import { ReplyComment } from "../replyComment/interface";
-import { User } from "../user/interface";
+import { User } from "../authentication/interface";
 
 export interface IComment {
   _id: string;

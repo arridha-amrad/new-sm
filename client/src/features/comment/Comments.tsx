@@ -8,7 +8,7 @@ import DeleteCommentButton from "./DeleteCommentButton";
 import { IComment } from "./interface";
 import LikeCommentButton from "./LikeCommentButton";
 import ReplyComment from "../replyComment/ReplyCommentForm";
-import { selectUserState } from "../user/userSlice";
+import { selectUserState } from "../authentication/authSlice";
 
 interface Props {
   comments: IComment[];

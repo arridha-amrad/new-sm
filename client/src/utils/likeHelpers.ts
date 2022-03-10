@@ -1,4 +1,4 @@
-import { User } from "../features/user/interface";
+import { User } from "../features/authentication/interface";
 
 export const setLikes = (users: User[], authenticatedUser: User) => {
   const newArray = [];

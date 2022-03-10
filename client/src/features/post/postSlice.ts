@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { Alert } from "../alert/interface";
-import { User } from "../user/interface";
+import { User } from "../authentication/interface";
 import { Post, PostState, UpdatePostDTO } from "./interface";
 import {
   createPostAPI,
@@ -27,7 +26,6 @@ import {
 } from "../replyComment/interface";
 
 const initialState: PostState = {
-  alert: null,
   isLoading: false,
   post: null,
   posts: [],
@@ -220,14 +218,6 @@ export const postSlice = createSlice({
         continue;
       }
     });
-    builder.addCase(updatePostAction.rejected, (state, action) => {
-      state.isLoading = false;
-      const newAlert: Alert = {
-        text: action.payload as string,
-        type: "error",
-      };
-      state.alert = newAlert;
-    });
     builder.addCase(getPostsAction.pending, (state) => {
       state.isLoading = true;
     });
@@ -237,27 +227,11 @@ export const postSlice = createSlice({
     });
     builder.addCase(getPostsAction.rejected, (state, action) => {
       state.isLoading = false;
-      const newAlert: Alert = {
-        text: action.payload as string,
-        type: "error",
-      };
-      state.alert = newAlert;
-    });
-    builder.addCase(createPostAction.pending, (state) => {
-      state.isLoading = true;
     });
     builder.addCase(createPostAction.fulfilled, (state, action) => {
       const newPost = action.payload as WritableDraft<Post>;
       state.isLoading = false;
       state.posts.unshift(newPost);
-    });
-    builder.addCase(createPostAction.rejected, (state, action) => {
-      state.isLoading = false;
-      const newAlert: Alert = {
-        text: action.payload as string,
-        type: "error",
-      };
-      state.alert = newAlert;
     });
   },
 });

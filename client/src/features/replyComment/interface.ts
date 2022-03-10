@@ -1,4 +1,4 @@
-import { User } from "../user/interface";
+import { User } from "../authentication/interface";
 
 export interface ReplyComment {
   _id: string;

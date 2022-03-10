@@ -1,5 +1,3 @@
-import { Alert } from "../alert/interface";
-
 export interface RegisterDTO {
   email: string;
   username: string;
@@ -21,7 +19,5 @@ export interface User {
 
 export interface AuthState {
   loginUser: User | null;
-  isLoading: boolean;
-  alert: Alert | null;
-  token: string | null;
+  isLoadingAuth: boolean;
 }

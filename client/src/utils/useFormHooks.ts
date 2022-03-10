@@ -1,5 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Alert } from "../features/alert/interface";
+
+export interface Alert {
+  type: "success" | "error";
+  text: string;
+}
 
 interface FieldValidator<T> {
   errors: Partial<T>;
@@ -12,7 +16,7 @@ const useFormHooks = <T>(
   fieldValidator: () => FieldValidator<T>
 ) => {
   const [state, setState] = useState(initialState);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const [alert, setAlert] = useState<Alert | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<T> | null>(null);
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -27,9 +31,9 @@ const useFormHooks = <T>(
     setFieldErrors(null);
     const { errors, isValid } = fieldValidator();
     if (isValid) {
-      setLoading(true);
+      setisLoading(true);
       await submitAction();
-      setLoading(false);
+      setisLoading(false);
     } else {
       setFieldErrors(errors);
     }
@@ -40,8 +44,8 @@ const useFormHooks = <T>(
     onChange,
     setState,
     onSubmit,
-    loading,
-    setLoading,
+    isLoading,
+    setisLoading,
     alert,
     setAlert,
     fieldErrors,

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectUserState } from "../user/userSlice";
+import { selectUserState } from "../authentication/authSlice";
 import { likeCommentAction } from "./commentSlice";
 import { IComment } from "./interface";
 

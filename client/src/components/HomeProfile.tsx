@@ -1,5 +1,5 @@
 import { useAppSelector } from "../app/hooks";
-import { selectUserState } from "../features/user/userSlice";
+import { selectUserState } from "../features/authentication/authSlice";
 
 const HomeProfile = () => {
   const { loginUser } = useAppSelector(selectUserState);

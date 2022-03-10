@@ -1,14 +1,8 @@
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../app/hooks";
 import GoogleLogin from "../components/GoogleLogin";
-import MyAlert from "../components/MyAlert";
-import RegisterForm from "../features/user/Register";
-import { selectUserState, unsetAlert } from "../features/user/userSlice";
+import RegisterForm from "../features/authentication/Register";
 
 const Register = () => {
-  const dispatch = useDispatch();
-  const { alert } = useAppSelector(selectUserState);
   return (
     <section className="d-flex flex-column min-vh-100 overflow-hidden">
       <div className="flex-grow-1 d-flex align-items-center  justify-content-center">
@@ -18,9 +12,8 @@ const Register = () => {
         >
           <h1 className="fw-bold">Register</h1>
 
-          <MyAlert alert={alert} close={() => dispatch(unsetAlert())} />
-
           <RegisterForm />
+
           <small className=" text-center">
             Have an account?
             <Link className=" ms-1 text-decoration-none" to="/login">

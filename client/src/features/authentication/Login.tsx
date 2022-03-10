@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import InputPassword from "../../components/InputPassword";
 import MyAlert from "../../components/MyAlert";
 import useFormHooks from "../../utils/useFormHooks";
 import { LoginDTO } from "./interface";
-import { loginAction, selectUserState } from "./userSlice";
+import { loginAction, selectUserState } from "./authSlice";
 
 const Login = () => {
   type LoginFieldValidator = Partial<LoginDTO>;
@@ -14,7 +14,6 @@ const Login = () => {
   const { loginUser } = useAppSelector(selectUserState);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [isMounted, setIsMounted] = useState(true);
 
   const checkField = () => {
     let errors: LoginFieldValidator = {};
@@ -51,7 +50,7 @@ const Login = () => {
     }
   };
 
-  const { onChange, state, alert, loading, setAlert, onSubmit, fieldErrors } =
+  const { onChange, state, alert, isLoading, setAlert, onSubmit, fieldErrors } =
     useFormHooks<LoginDTO>(
       {
         identity: "",
@@ -62,12 +61,15 @@ const Login = () => {
     );
 
   useEffect(() => {
+    let isMounted = true;
     if (loginUser && isMounted) {
       navigate("/");
     }
-    return () => setIsMounted(false);
+    return () => {
+      isMounted = false;
+    };
     // eslint-disable-next-line
-  }, [loginUser]);
+  }, []);
 
   return (
     <div>
@@ -91,8 +93,12 @@ const Login = () => {
           value={state.password}
           onChange={onChange}
         />
-        <button disabled={loading} type="submit" className="btn btn-primary">
-          {loading ? "loading..." : "Login"}
+        <button
+          disabled={isLoading || !state.identity || !state.password}
+          type="submit"
+          className="btn btn-primary"
+        >
+          {isLoading ? "loading..." : "Login"}
         </button>
       </form>
     </div>

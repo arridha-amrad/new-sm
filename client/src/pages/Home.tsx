@@ -1,10 +1,6 @@
-import { useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../app/hooks";
 import Navbar from "../components/AppBar";
 import HomeProfile from "../components/HomeProfile";
-import { selectUserState } from "../features/user/userSlice";
 import HomePosts from "../components/HomePosts";
 import PostMaker from "../features/post/PostMaker";
 

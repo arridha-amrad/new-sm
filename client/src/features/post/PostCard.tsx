@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/esm/Carousel";
 import Dropdown from "react-bootstrap/esm/Dropdown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import CommentIcon from "../../components/CommentIcon";
-import { selectUserState } from "../user/userSlice";
+import { selectUserState } from "../authentication/authSlice";
 import CommentMaker from "../comment/CommentMaker";
 import Comments from "../comment/Comments";
 import DeletePostButton from "./DeletePostButton";

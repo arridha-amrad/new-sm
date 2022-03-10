@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { timeSetter } from "../../utils/timeSetter";
-import { selectUserState } from "../user/userSlice";
+import { selectUserState } from "../authentication/authSlice";
 import DeleteReplyButton from "./DeleteReplyButton";
 import { ReplyComment } from "./interface";
 
