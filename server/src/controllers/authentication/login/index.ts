@@ -50,6 +50,7 @@ export default async (req: Request, res: Response) => {
       .status(200)
       .cookie(process.env.COOKIE_REFRESH_TOKEN, refreshToken, setCookieOptions)
       .json({ user: loginUser, token: accessToken });
+      
   } catch (err) {
     console.log(err);
     return res.status(500).send('Server Error');

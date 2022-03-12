@@ -6,7 +6,6 @@ import {
   RefreshTokenPayloadType,
 } from '../interfacesAndTypes/JwtTypes';
 import * as fs from 'fs';
-import { getAuthTokenFromCookie } from '../utils/CookieHelpers';
 import { IUserModel } from '../models/user/IUserModel';
 
 const publicKey = fs.readFileSync('keys/public.pem', 'utf-8');

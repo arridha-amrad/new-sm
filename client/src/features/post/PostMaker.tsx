@@ -1,16 +1,56 @@
 import { ChangeEvent, useRef, useState } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import useForm from "../../utils/useForm";
-import { createPostAction, selectPostState } from "./postSlice";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../../app/hooks";
+import useFormHooks from "../../utils/useFormHooks";
+import { createPostAction } from "./postSlice";
+
+interface PostMakerValidator {
+  body?: string;
+}
 
 const PostMaker = () => {
   const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector(selectPostState);
 
-  const { onChange, state } = useForm({
-    body: "",
-  });
+  const checkField = () => {
+    let errors: PostMakerValidator = {};
+    if (state.body.trim() === "") {
+      errors.body = "Body field is required";
+    }
+    return {
+      errors,
+      isValid: Object.keys(errors).length <= 0,
+    };
+  };
+
+  const createPost = async () => {
+    const formData = new FormData();
+    formData.append("body", state.body);
+    if (fileObj2) {
+      for (let i = 0; i < fileObj2!.length; i++) {
+        const file = fileObj2![i];
+        formData.append("images", file);
+      }
+    }
+    const res = await dispatch(createPostAction(formData));
+    if (res.meta.requestStatus === "fulfilled") {
+      notify("New post created successfully", "success");
+    }
+  };
+
+  const { onChange, onSubmit, isLoading, state, fieldErrors } = useFormHooks<{
+    body: string;
+  }>(
+    {
+      body: "",
+    },
+    createPost,
+    checkField
+  );
+
+  // const { onChange, state } = useForm({
+  //   body: "",
+  // });
 
   const [error, setError] = useState("");
   const [fileObj2, setFileObj2] = useState<FileList | null>(null);
@@ -24,8 +64,8 @@ const PostMaker = () => {
     const files = e.target.files;
 
     if (files) {
-      if (files.length > 5) {
-        setError("Maximum 5 images allowed");
+      if (files.length > 4) {
+        notify("Maximum file is 4", "error");
       } else {
         setFileObj2(files);
         fileObj.push(files);
@@ -38,21 +78,34 @@ const PostMaker = () => {
     }
   };
 
-  const createPost = () => {
-    const formData = new FormData();
-    formData.append("body", state.body);
-    if (fileObj2) {
-      for (let i = 0; i < fileObj2!.length; i++) {
-        const file = fileObj2![i];
-        formData.append("images", file);
-      }
+  const notify = (message: string, type: "success" | "error") => {
+    if (type === "error") {
+      toast.error(message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
     }
-    dispatch(createPostAction(formData));
+    if (type === "success") {
+      toast.success(message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+    }
   };
 
   return (
     <div className="mt-2">
-      <div className="d-flex flex-column gap-3">
+      <form onSubmit={onSubmit} className="d-flex flex-column gap-3">
         <textarea
           onChange={onChange}
           name="body"
@@ -60,7 +113,6 @@ const PostMaker = () => {
           rows={5}
           style={{ resize: "none" }}
           placeholder="write something ..."
-          className="form-control"
         />
 
         <input
@@ -71,6 +123,7 @@ const PostMaker = () => {
           name="images"
           onChange={pickImages}
         />
+
         <div className="d-flex gap-2 justify-content-between align-items-center ">
           <div className="d-flex gap-2 align-items-center">
             <button
@@ -121,7 +174,7 @@ const PostMaker = () => {
             upload image
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

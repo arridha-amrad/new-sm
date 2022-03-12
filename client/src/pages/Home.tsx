@@ -3,6 +3,7 @@ import Navbar from "../components/AppBar";
 import HomeProfile from "../components/HomeProfile";
 import HomePosts from "../components/HomePosts";
 import PostMaker from "../features/post/PostMaker";
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
   return (
@@ -20,6 +21,20 @@ const Home = () => {
         <div className="mt-5">
           <HomePosts />
         </div>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable={false}
+          pauseOnHover={false}
+          closeButton={false}
+          icon={false}
+          theme="colored"
+        />
       </Container>
     </>
   );
