@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { timeSetter } from "../../utils/timeSetter";
 import { setShowReplyCommentInput } from "../post/postSlice";
 import CommentReplies from "../replyComment/CommentReplies";
-import DeleteCommentButton from "./DeleteCommentButton";
+import DeleteCommentButton from "./DeleteCommentFeature";
 import { IComment } from "./interface";
-import LikeCommentButton from "./LikeCommentButton";
-import ReplyComment from "../replyComment/ReplyCommentForm";
+import LikeCommentButton from "./LikeCommentFeature";
+import ReplyComment from "../replyComment/CreateReplyFeature";
 import { selectUserState } from "../authentication/authSlice";
 
 interface Props {

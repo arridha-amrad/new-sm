@@ -4,13 +4,13 @@ import Dropdown from "react-bootstrap/esm/Dropdown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import CommentIcon from "../../components/CommentIcon";
 import { selectUserState } from "../authentication/authSlice";
-import CommentMaker from "../comment/CommentMaker";
+import CommentMaker from "../comment/CreateCommentFeature";
 import Comments from "../comment/Comments";
-import DeletePostButton from "./DeletePostButton";
+import DeletePostButton from "./DeletePostFeature";
 import { Post } from "./interface";
-import LikePostButton from "./LikePostButton";
+import LikePostButton from "./LikePostFeature";
 import { toggleIsEdit, unsetIsEdit } from "./postSlice";
-import UpdatePostForm from "./UpdatePostForm";
+import UpdatePostForm from "./UpdatePostFeature";
 import { timeSetter } from "../../utils/timeSetter";
 import { setLikes } from "../../utils/likeHelpers";
 

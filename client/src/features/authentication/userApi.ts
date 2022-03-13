@@ -16,10 +16,6 @@ export const refreshTokenAPI = async () => {
   return axiosInstance.get("/api/auth/refresh-token");
 };
 
-export const getLoginUserAPI = async () => {
-  return axiosInstance.get<{ user: User }>("/api/user/me");
-};
-
 export const logoutAPI = async () => {
   return axiosInstance.post("/api/auth/logout");
 };

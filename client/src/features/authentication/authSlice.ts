@@ -2,17 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setToken } from "../../utils/axiosInterceptor";
 import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
-import { getLoginUserAPI, loginAPI, logoutAPI, registerAPI } from "./userApi";
+import { loginAPI, logoutAPI, registerAPI } from "./userApi";
 
 const initialState: AuthState = {
   isLoadingAuth: true,
   loginUser: null,
 };
-
-export const getLoginUser = createAsyncThunk("user/setLoginUser", async () => {
-  const { data } = await getLoginUserAPI();
-  return data.user;
-});
 
 export const registerAction = createAsyncThunk(
   "user/registration",
@@ -47,15 +42,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    unsetLoading: (state) => {
-      state.isLoadingAuth = false;
-    },
     setLoginUser: (state, action: PayloadAction<User>) => {
       state.loginUser = action.payload;
+      state.isLoadingAuth = false;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction.fulfilled, (state, action) => {
+    builder.addCase(logoutAction.fulfilled, (state) => {
       state.loginUser = null;
     });
     builder.addCase(loginAction.fulfilled, (state, action) => {
@@ -66,7 +59,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setLoginUser, unsetLoading } = userSlice.actions;
+export const { setLoginUser } = userSlice.actions;
 export const selectUserState = (state: RootState) => state.auth;
 
 export default userSlice.reducer;

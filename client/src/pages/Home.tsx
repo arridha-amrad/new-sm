@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import Navbar from "../components/AppBar";
 import HomeProfile from "../components/HomeProfile";
 import HomePosts from "../components/HomePosts";
-import PostMaker from "../features/post/PostMaker";
+import PostMaker from "../features/post/CreatePostFeature";
 import { ToastContainer } from "react-toastify";
 
 const Home = () => {
