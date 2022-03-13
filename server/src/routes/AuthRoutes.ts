@@ -1,11 +1,11 @@
 import Express from 'express';
-import emailVerification from '../controllers/authentication/emailVerification';
-import forgotPassword from '../controllers/authentication/forgotPassword';
-import login from '../controllers/authentication/login';
-import logout from '../controllers/authentication/logout';
-import refreshToken from '../controllers/authentication/refreshToken';
-import register from '../controllers/authentication/register';
-import resetPassword from '../controllers/authentication/resetPassword';
+import emailVerification from '../controllers/authentication/emailVerificationController';
+import forgotPassword from '../controllers/authentication/forgotPasswordController';
+import login from '../controllers/authentication/loginController';
+import logout from '../controllers/authentication/logoutController';
+import refreshToken from '../controllers/authentication/refreshTokenController';
+import register from '../controllers/authentication/registerController';
+import resetPassword from '../controllers/authentication/resetPasswordController';
 
 import googleOauth from '../controllers/authentication/googleAuthController';
 import { verifyAccessToken } from '../services/JwtServices';

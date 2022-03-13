@@ -3,12 +3,12 @@ import {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
-} from '../../../services/JwtServices';
-import { findUserById } from '../../../services/UserServices';
+} from '../../services/JwtServices';
+import { findUserById } from '../../services/UserServices';
 import {
   getRefreshTokenFromCookie,
   setCookieOptions,
-} from '../../../utils/CookieHelpers';
+} from '../../utils/CookieHelpers';
 
 export default async (req: Request, res: Response) => {
   const refreshToken = getRefreshTokenFromCookie(req);

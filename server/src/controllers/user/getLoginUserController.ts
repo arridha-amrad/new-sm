@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { findUserById } from '../../../services/UserServices';
+import { findUserById } from '../../services/UserServices';
 
 export default async (req: Request, res: Response) => {
   try {

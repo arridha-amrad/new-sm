@@ -1,8 +1,8 @@
-import { RegisterRequest } from '../../../dto/AuthData';
+import { LoginRequest, RegisterRequest } from '../../dto/AuthData';
 import {
   IFieldError,
   IValidationResult,
-} from '../../../interfacesAndTypes/AuthValidatorInterfaces';
+} from '../../interfacesAndTypes/AuthValidatorInterfaces';
 
 export default (data: RegisterRequest): IValidationResult => {
   const { email, password, username } = data;
@@ -59,6 +59,69 @@ export default (data: RegisterRequest): IValidationResult => {
       {
         field: 'password',
         message: 'Password is required',
+      },
+    ];
+  }
+  return {
+    errors,
+    valid: errors.length <= 0,
+  };
+};
+
+export const forgotPasswordValidator = (email: string): IValidationResult => {
+  let errors: IFieldError[] = [];
+  if (email.trim() === '') {
+    errors = [
+      ...errors,
+      {
+        field: 'email',
+        message: 'email is required',
+      },
+    ];
+  }
+  return {
+    errors,
+    valid: errors.length <= 0,
+  };
+};
+
+export const loginValidator = ({
+  identity,
+  password,
+}: LoginRequest): IValidationResult => {
+  let errors: IFieldError[] = [];
+  if (identity.trim() === '') {
+    errors = [
+      ...errors,
+      {
+        field: 'identity',
+        message: 'please input your email or username',
+      },
+    ];
+  }
+  if (password?.length === 0) {
+    errors = [
+      ...errors,
+      {
+        field: 'password',
+        message: 'password is required',
+      },
+    ];
+  }
+  return {
+    errors,
+    valid: errors.length <= 0,
+  };
+};
+
+export const resetPasswordValidator = (password: string): IValidationResult => {
+  let errors: IFieldError[] = [];
+  if (password.length === 0) {
+    errors = [
+      ...errors,
+      {
+        field: 'password',
+        message: 'please input a valid password',
       },
     ];
   }

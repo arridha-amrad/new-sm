@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
-import { findUserByUsernameOrEmail } from '../../../services/UserServices';
-import { emailNotVerified } from '../../../templates/Message';
-import loginValidator from './loginValidator';
+import { findUserByUsernameOrEmail } from '../../services/UserServices';
+import { emailNotVerified } from '../../templates/Message';
 import argon2 from 'argon2';
-import {
-  signAccessToken,
-  signRefreshToken,
-} from '../../../services/JwtServices';
-import { setCookieOptions } from '../../../utils/CookieHelpers';
+import { signAccessToken, signRefreshToken } from '../../services/JwtServices';
+import { setCookieOptions } from '../../utils/CookieHelpers';
+import { loginValidator } from './authFieldValidator';
 
 export default async (req: Request, res: Response) => {
   const { identity, password } = req.body;
@@ -50,7 +47,6 @@ export default async (req: Request, res: Response) => {
       .status(200)
       .cookie(process.env.COOKIE_REFRESH_TOKEN, refreshToken, setCookieOptions)
       .json({ user: loginUser, token: accessToken });
-      
   } catch (err) {
     console.log(err);
     return res.status(500).send('Server Error');

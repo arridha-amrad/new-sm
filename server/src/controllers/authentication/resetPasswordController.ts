@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
-import { verifyTokenLink } from '../../../services/JwtServices';
-import {
-  findUser,
-  findUserByIdAndUpdate,
-} from '../../../services/UserServices';
-import resetPasswordValidator from './resetPasswordValidator';
-import generateCode from '../../../utils/CodeGenerator';
+import { verifyTokenLink } from '../../services/JwtServices';
+import { findUser, findUserByIdAndUpdate } from '../../services/UserServices';
+import generateCode from '../../utils/CodeGenerator';
 import argon2 from 'argon2';
-import { resetPassword } from '../../../templates/Message';
+import { resetPassword } from '../../templates/Message';
+import { resetPasswordValidator } from './authFieldValidator';
 
 export default async (req: Request, res: Response) => {
   const { password } = req.body;

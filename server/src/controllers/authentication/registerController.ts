@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import { createUser, findUser } from '../../../services/UserServices';
-import registerValidator from './registerValidator';
+import { createUser, findUser } from '../../services/UserServices';
 import argon2 from 'argon2';
-import sendEmail from '../../../services/MailServices';
-import { emailConfirmation } from '../../../templates/MailTemplates';
-import { registerSuccess } from '../../../templates/Message';
-import { createEmailLinkToken } from '../../../services/JwtServices';
+import sendEmail from '../../services/MailServices';
+import { emailConfirmation } from '../../templates/MailTemplates';
+import { registerSuccess } from '../../templates/Message';
+import { createEmailLinkToken } from '../../services/JwtServices';
 
 const Register = async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
@@ -55,3 +54,10 @@ const Register = async (req: Request, res: Response) => {
 };
 
 export default Register;
+function registerValidator(arg0: {
+  email: any;
+  password: any;
+  username: any;
+}): { errors: any; valid: any } {
+  throw new Error('Function not implemented.');
+}

@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import me from '../controllers/user/me';
+import getLoginUserController from '../controllers/user/getLoginUserController';
 import { verifyAccessToken } from '../services/JwtServices';
 
 // eslint-disable-next-line new-cap
 const router = Router();
 
-router.get('/me', verifyAccessToken, me);
+router.get('/me', verifyAccessToken, getLoginUserController);
 
 export default router;

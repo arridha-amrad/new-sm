@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { createEmailLinkToken } from '../../../services/JwtServices';
-import sendEmail from '../../../services/MailServices';
-import { findUser } from '../../../services/UserServices';
-import { resetPasswordRequest } from '../../../templates/MailTemplates';
-import { emailNotVerified, forgotPassword } from '../../../templates/Message';
-import forgotPasswordValidator from './forgotPasswordValidator';
+import { createEmailLinkToken } from '../../services/JwtServices';
+import sendEmail from '../../services/MailServices';
+import { findUser } from '../../services/UserServices';
+import { resetPasswordRequest } from '../../templates/MailTemplates';
+import { emailNotVerified, forgotPassword } from '../../templates/Message';
+import { forgotPasswordValidator } from './authFieldValidator';
 
 export default async (req: Request, res: Response) => {
   const { email } = req.body;

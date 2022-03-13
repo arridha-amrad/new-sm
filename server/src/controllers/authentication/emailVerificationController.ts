@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
-import { verifyTokenLink } from '../../../services/JwtServices';
-import {
-  findUser,
-  findUserByIdAndUpdate,
-} from '../../../services/UserServices';
-import generateCode from '../../../utils/CodeGenerator';
+import { verifyTokenLink } from '../../services/JwtServices';
+import { findUser, findUserByIdAndUpdate } from '../../services/UserServices';
+import generateCode from '../../utils/CodeGenerator';
 
 export default async (req: Request, res: Response) => {
   const { token } = req.params;
