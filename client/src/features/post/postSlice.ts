@@ -4,6 +4,7 @@ import { User } from "../authentication/interface";
 import { Post, PostState, UpdatePostDTO } from "./interface";
 import {
   createPostAPI,
+  deletePostAPI,
   getPostsAPI,
   likePostAPI,
   updatePostAPI,
@@ -100,6 +101,18 @@ export const deleteReplyAction = createAsyncThunk(
   async (replyId: string, thunkAPI) => {
     try {
       await deleteReplyAPI(replyId);
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const deletePostAction = createAsyncThunk(
+  "post/deletePost",
+  async (post: Post, thunkAPI) => {
+    try {
+      await deletePostAPI(post._id);
+      return post;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response.data);
     }
@@ -204,6 +217,9 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(deletePostAction.fulfilled, (state, action) => {
+      state.posts = state.posts.filter((p) => p._id !== action.payload._id);
+    });
     builder.addCase(updatePostAction.pending, (state) => {
       state.isLoading = true;
     });

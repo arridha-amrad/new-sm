@@ -7,19 +7,11 @@ import { verifyAccessToken } from '../services/JwtServices';
 
 const router = express.Router();
 
-router.post('/comment/:postId', verifyAccessToken, createCommentController);
-router.post(
-  '/comment/like/:commentId',
-  verifyAccessToken,
-  likeCommentController
-);
+router.post('/:postId', verifyAccessToken, createCommentController);
+router.post('/like/:commentId', verifyAccessToken, likeCommentController);
 
-router.delete(
-  '/comment/:commentId',
-  verifyAccessToken,
-  deleteCommentController
-);
+router.delete('/:commentId', verifyAccessToken, deleteCommentController);
 
-router.put('/comment/:commentId', verifyAccessToken, updateCommentController);
+router.put('/:commentId', verifyAccessToken, updateCommentController);
 
 export default router;

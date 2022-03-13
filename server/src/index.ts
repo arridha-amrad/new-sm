@@ -12,6 +12,7 @@ import fileUpload from 'express-fileupload';
 
 import { connect } from './database/mongo';
 import ReplyRoutes from './routes/ReplyRoutes';
+import CommentRoutes from './routes/CommentRoutes';
 
 console.clear();
 
@@ -33,6 +34,7 @@ export const runServer = () => {
   app.use('/api/user', UserRoutes);
   app.use('/api/post', PostRoutes);
   app.use('/api/reply', ReplyRoutes);
+  app.use('/api/comment', CommentRoutes);
 
   const PORT = process.env.PORT;
   app.listen(PORT, () => {

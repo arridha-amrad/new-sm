@@ -48,6 +48,7 @@ const useFormHooks = <T>(
     setisLoading,
     alert,
     setAlert,
+    setFieldErrors,
     fieldErrors,
   };
 };
