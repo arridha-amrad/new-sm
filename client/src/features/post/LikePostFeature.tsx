@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUserState } from "../authentication/authSlice";
 import { Post } from "./interface";

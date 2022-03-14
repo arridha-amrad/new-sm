@@ -18,9 +18,10 @@ const CommentReplies: FC<Props> = ({
 }) => {
   return (
     <div className="mt-2 w-100">
-      {replies.map((reply) => (
+      {replies.map((reply, index) => (
         <Fragment key={reply._id}>
           <ReplyCard
+            replyIndex={index}
             comment={comment}
             commentIndex={commentIndex}
             postIndex={postIndex}

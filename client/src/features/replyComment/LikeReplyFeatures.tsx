@@ -1,18 +1,40 @@
 import { FC } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUserState } from "../authentication/authSlice";
+import { likeReplyAction, setLikeReply } from "../post/postSlice";
 import { ReplyComment } from "./interface";
 
 interface Props {
   reply: ReplyComment;
   postIndex: number;
   commentIndex: number;
+  replyIndex: number;
 }
 
-const LikeReplyFeature: FC<Props> = ({ reply, postIndex, commentIndex }) => {
+const LikeReplyFeature: FC<Props> = ({
+  reply,
+  postIndex,
+  commentIndex,
+  replyIndex,
+}) => {
   const { loginUser } = useAppSelector(selectUserState);
   const isLiked = reply.likes.find((user) => user._id === loginUser?._id);
-  const handleLikeReply = () => {};
+  const dispatch = useAppDispatch();
+  const handleLikeReply = async () => {
+    console.log("isLiked : ", !!isLiked);
+
+    dispatch(
+      setLikeReply({
+        commentIndex,
+        isLiked: !!isLiked,
+        loginUser: loginUser!,
+        postIndex,
+        replyId: reply._id,
+        replyIndex,
+      })
+    );
+    await dispatch(likeReplyAction(reply._id));
+  };
   return (
     <button
       onClick={handleLikeReply}

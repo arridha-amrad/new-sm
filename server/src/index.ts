@@ -44,7 +44,7 @@ export const runServer = () => {
   return app;
 };
 
-connect(process.env.DB_URI)
+connect(process.env.MONGO_DB_ATLAS_URI)
   .then(() => {
     runServer();
   })

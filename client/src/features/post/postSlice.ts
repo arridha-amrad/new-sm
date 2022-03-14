@@ -25,6 +25,7 @@ import {
   ReplyCommentDTO,
   ReplyCommentResult,
 } from "../replyComment/interface";
+import { likeReplyAPI } from "../replyComment/replyApi";
 
 const initialState: PostState = {
   isLoading: false,
@@ -32,6 +33,26 @@ const initialState: PostState = {
   post: null,
   posts: [],
 };
+
+interface LikeReplyDTO {
+  replyId: string;
+  postIndex: number;
+  commentIndex: number;
+  replyIndex: number;
+  isLiked: boolean;
+  loginUser: User;
+}
+
+export const likeReplyAction = createAsyncThunk(
+  "reply/likeReply",
+  async (replyId: string, thunkAPI) => {
+    try {
+      await likeReplyAPI(replyId);
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const updatePostAction = createAsyncThunk(
   "post/update",
@@ -129,6 +150,22 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    setLikeReply: (state, action: PayloadAction<LikeReplyDTO>) => {
+      const { commentIndex, postIndex, replyIndex, isLiked, loginUser } =
+        action.payload;
+      let relatedLikes =
+        state.posts[postIndex].comments[commentIndex].replies[replyIndex].likes;
+      if (isLiked) {
+        relatedLikes = relatedLikes.filter(
+          (user) => user._id !== loginUser._id
+        );
+        state.posts[postIndex].comments[commentIndex].replies[
+          replyIndex
+        ].likes = relatedLikes;
+      } else {
+        relatedLikes.push(loginUser);
+      }
+    },
     setPosts: (state, action: PayloadAction<Post[]>) => {
       state.posts = action.payload;
     },
@@ -249,6 +286,7 @@ export const postSlice = createSlice({
 });
 
 export const {
+  setLikeReply,
   deleteReplyComment,
   replyCommentResult,
   setLikePost,

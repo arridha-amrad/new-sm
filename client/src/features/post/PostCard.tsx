@@ -34,6 +34,14 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
     dispatch(unsetIsEdit(stateIndex));
   };
 
+  const sumComments = () => {
+    let repliesLength = 0;
+    const comments = post.comments;
+    const commentLength = comments.length;
+    comments.forEach((comment) => (repliesLength += comment.replies.length));
+    return commentLength + repliesLength;
+  };
+
   return (
     <div className="row justify-content-center mb-4">
       <div className="col-12 col-lg-8 rounded border p-3">
@@ -107,7 +115,12 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
             onClick={() => ref.current?.focus()}
             className="btn bg-transparent border-0"
           >
-            <CommentIcon />
+            <div className="d-flex align-items-center gap-2">
+              {post.comments.length > 0 && <div>{sumComments()}</div>}
+              <div>
+                <CommentIcon />
+              </div>
+            </div>
           </button>
         </div>
 

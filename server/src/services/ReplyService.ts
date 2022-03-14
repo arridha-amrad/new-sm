@@ -1,6 +1,7 @@
 import ReplyModel from '../models/reply/ReplyModel';
 import { AnyKeys } from 'mongoose';
 import { IReplyModel } from '../models/reply/IReplyModel';
+import { UpdateQuery } from 'mongoose';
 
 export const makeReply = async (data: AnyKeys<IReplyModel>) => {
   const newReply = new ReplyModel(data);
@@ -15,4 +16,11 @@ export const deleteReply = async (replyId: string) => {
 
 export const findOneReply = async (replyId: string) => {
   return ReplyModel.findById(replyId);
+};
+
+export const updateReply = async (
+  replyId: string,
+  update?: UpdateQuery<IReplyModel>
+) => {
+  return ReplyModel.findByIdAndUpdate(replyId, update, { new: true });
 };

@@ -123,7 +123,7 @@ const PostMaker = () => {
         <div className=" d-flex gap-3">
           <div className="d-flex flex-column flex-grow-1">
             <textarea
-              className="myTextArea d-block "
+              className="myTextArea d-block h-100"
               onChange={onChange}
               name="body"
               value={state.body}

@@ -13,9 +13,16 @@ interface Props {
   commentIndex: number;
   postIndex: number;
   comment: IComment;
+  replyIndex: number;
 }
 
-const ReplyCard: FC<Props> = ({ reply, commentIndex, postIndex, comment }) => {
+const ReplyCard: FC<Props> = ({
+  reply,
+  commentIndex,
+  postIndex,
+  comment,
+  replyIndex,
+}) => {
   const { loginUser } = useAppSelector(selectUserState);
   const [isShow, setIsShow] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
@@ -48,12 +55,18 @@ const ReplyCard: FC<Props> = ({ reply, commentIndex, postIndex, comment }) => {
           )}
         </div>
         <small>{reply.body}</small>
+
         <div className="d-flex gap-2 align-items-center">
+          {reply.likes.length > 0 && (
+            <span className=" text-muted">{reply.likes.length}</span>
+          )}
           <LikeReplyFeature
+            replyIndex={replyIndex}
             reply={reply}
             commentIndex={commentIndex}
             postIndex={postIndex}
           />
+
           {reply.sender._id !== loginUser?._id && (
             <button
               onClick={() => {
