@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
 import qs from 'qs';
-import { signAccessToken, signRefreshToken } from '../../services/JwtServices';
+import { signRefreshToken } from '../../services/JwtServices';
 import codeGenerator from '../../utils/CodeGenerator';
 import { setCookieOptions } from '../../utils/CookieHelpers';
 import { createUser, findUser } from '../../services/UserServices';
@@ -99,12 +99,11 @@ export default async (req: Request, res: Response) => {
       );
     }
 
-    const { email, family_name, given_name, name, picture } = googleUser;
+    const { email, family_name, given_name, name } = googleUser;
     let myUser;
     if (!user) {
       const newUser = await createUser({
         requiredAuthAction: 'none',
-        avatarURL: picture,
         email,
         fullName: `${given_name} ${family_name}`,
         username: name.split(' ').join(''),
@@ -118,17 +117,13 @@ export default async (req: Request, res: Response) => {
       myUser = user;
     }
     // create accessToken and refreshToken
-    const accessToken = await signAccessToken(myUser.id);
     const refresh_token = await signRefreshToken(myUser);
-    res.cookie('isAuthenticated', true);
-    res.cookie(process.env.COOKIE_ACC_TOKEN, accessToken, setCookieOptions);
     res.cookie(
       process.env.COOKIE_REFRESH_TOKEN,
       refresh_token,
       setCookieOptions
     );
     res.redirect(process.env.CLIENT_ORIGIN);
-    // set cookies
   } catch (err) {
     console.log(err);
     res.redirect(`${process.env.CLIENT_ORIGIN}/login`);

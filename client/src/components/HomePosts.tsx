@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import PostCard from "../features/post/PostCard";
 import { getPostsAction, selectPostState } from "../features/post/postSlice";
 
 const HomePosts = () => {
-  const [isMounted, setIsMounted] = useState(true);
-  const { posts } = useAppSelector(selectPostState);
+  const { posts, isFetchingPosts } = useAppSelector(selectPostState);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isMounted) {
-      dispatch(getPostsAction());
-    }
-    return () => setIsMounted(false);
+    dispatch(getPostsAction());
     // eslint-disable-next-line
   }, []);
+
+  if (isFetchingPosts) {
+    return <p>loading...</p>;
+  }
 
   return (
     <>

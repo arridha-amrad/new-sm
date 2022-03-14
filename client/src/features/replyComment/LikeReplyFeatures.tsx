@@ -1,40 +1,29 @@
-import { FC, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { FC } from "react";
+import { useAppSelector } from "../../app/hooks";
 import { selectUserState } from "../authentication/authSlice";
-import { Post } from "./interface";
-import { likePostAction, setLikePost } from "./postSlice";
+import { ReplyComment } from "./interface";
 
 interface Props {
-  post: Post;
-  stateIndex: number;
+  reply: ReplyComment;
+  postIndex: number;
+  commentIndex: number;
 }
 
-const LikePostButton: FC<Props> = ({ post, stateIndex }) => {
+const LikeReplyFeature: FC<Props> = ({ reply, postIndex, commentIndex }) => {
   const { loginUser } = useAppSelector(selectUserState);
-  const dispatch = useAppDispatch();
-  const isLiked = post.likes.find((user) => user._id === loginUser?._id);
-
-  const handleLikePost = async () => {
-    dispatch(
-      setLikePost({
-        postIndex: stateIndex,
-        user: loginUser!,
-        isLiked: !!isLiked,
-      })
-    );
-    await dispatch(likePostAction(post._id));
-  };
+  const isLiked = reply.likes.find((user) => user._id === loginUser?._id);
+  const handleLikeReply = () => {};
   return (
     <button
-      onClick={handleLikePost}
-      className="btn bg-transparent border-0"
+      onClick={handleLikeReply}
+      className="btn bg-transparent border-0 p-0"
       style={{ cursor: "pointer" }}
     >
       {isLiked ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           fill="#db19d2"
           className="bi bi-heart-fill"
           viewBox="0 0 16 16"
@@ -47,8 +36,8 @@ const LikePostButton: FC<Props> = ({ post, stateIndex }) => {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           fill="currentColor"
           className="bi bi-heart"
           viewBox="0 0 16 16"
@@ -60,4 +49,4 @@ const LikePostButton: FC<Props> = ({ post, stateIndex }) => {
   );
 };
 
-export default LikePostButton;
+export default LikeReplyFeature;

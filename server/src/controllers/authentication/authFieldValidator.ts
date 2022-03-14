@@ -4,7 +4,7 @@ import {
   IValidationResult,
 } from '../../interfacesAndTypes/AuthValidatorInterfaces';
 
-export default (data: RegisterRequest): IValidationResult => {
+export const registerValidator = (data: RegisterRequest): IValidationResult => {
   const { email, password, username } = data;
   const regEx =
     /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;

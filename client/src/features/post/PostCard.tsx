@@ -91,8 +91,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
         )}
 
         <div className="my-3 d-flex align-items-start">
-          <div className="fw-bold me-2">{post.owner.username}</div>
-          <div className="flex-grow-1">
+          <div className="flex-grow-1" style={{ whiteSpace: "pre" }}>
             {post.isEdit ? (
               <UpdatePostForm post={post} hideFormEditPost={hideFormEditPost} />
             ) : (

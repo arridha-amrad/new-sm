@@ -33,11 +33,7 @@ const Login = () => {
     try {
       const result = await dispatch(loginAction(state));
       if (result.meta.requestStatus === "fulfilled") {
-        if (pathname === "/login") {
-          navigate("/");
-        } else {
-          window.location.href = "/";
-        }
+        window.location.pathname = "/";
       }
       if (result.meta.requestStatus === "rejected") {
         setAlert({

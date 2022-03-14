@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/esm/Dropdown";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../app/hooks";
 import { Post } from "./interface";
-import { deletePostAction, removePost } from "./postSlice";
+import { deletePostAction } from "./postSlice";
 
 interface Props {
   post: Post;

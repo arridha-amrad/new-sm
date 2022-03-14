@@ -5,8 +5,9 @@ import sendEmail from '../../services/MailServices';
 import { emailConfirmation } from '../../templates/MailTemplates';
 import { registerSuccess } from '../../templates/Message';
 import { createEmailLinkToken } from '../../services/JwtServices';
+import { registerValidator } from './authFieldValidator';
 
-const Register = async (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
 
   const { errors, valid } = registerValidator({
@@ -52,12 +53,3 @@ const Register = async (req: Request, res: Response) => {
     return res.sendStatus(500);
   }
 };
-
-export default Register;
-function registerValidator(arg0: {
-  email: any;
-  password: any;
-  username: any;
-}): { errors: any; valid: any } {
-  throw new Error('Function not implemented.');
-}

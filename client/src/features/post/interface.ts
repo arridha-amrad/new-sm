@@ -15,6 +15,7 @@ export interface Post {
 
 export interface PostState {
   isLoading: boolean;
+  isFetchingPosts: boolean;
   posts: Post[];
   post: Post | null;
 }

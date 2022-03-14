@@ -28,6 +28,7 @@ import {
 
 const initialState: PostState = {
   isLoading: false,
+  isFetchingPosts: true,
   post: null,
   posts: [],
 };
@@ -128,6 +129,9 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    setPosts: (state, action: PayloadAction<Post[]>) => {
+      state.posts = action.payload;
+    },
     deleteReplyComment: (state, action: PayloadAction<ReplyCommentResult>) => {
       const { commentIndex, postIndex, reply } = action.payload;
       const comment = state.posts[postIndex].comments[commentIndex];
@@ -210,11 +214,6 @@ export const postSlice = createSlice({
         );
       }
     },
-    removePost: (state, action: PayloadAction<Post>) => {
-      state.posts = state.posts.filter(
-        (post) => post._id !== action.payload._id
-      );
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(deletePostAction.fulfilled, (state, action) => {
@@ -234,15 +233,12 @@ export const postSlice = createSlice({
         continue;
       }
     });
-    builder.addCase(getPostsAction.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getPostsAction.fulfilled, (state, action: any) => {
-      state.isLoading = false;
+    builder.addCase(getPostsAction.fulfilled, (state, action) => {
+      state.isFetchingPosts = false;
       state.posts = action.payload;
     });
-    builder.addCase(getPostsAction.rejected, (state, action) => {
-      state.isLoading = false;
+    builder.addCase(getPostsAction.rejected, (state) => {
+      state.isFetchingPosts = false;
     });
     builder.addCase(createPostAction.fulfilled, (state, action) => {
       const newPost = action.payload as WritableDraft<Post>;
@@ -256,7 +252,6 @@ export const {
   deleteReplyComment,
   replyCommentResult,
   setLikePost,
-  removePost,
   setComment,
   removeComment,
   toggleIsEdit,
@@ -264,6 +259,7 @@ export const {
   setLikeComment,
   setShowReplyCommentInput,
   unsetReplyCommentForm,
+  setPosts,
 } = postSlice.actions;
 
 export const selectPostState = (state: RootState) => state.post;

@@ -25,13 +25,11 @@ const CreatePageImagePreview: FC<Props> = ({ previewImages }) => {
                 </div>
               );
             }
-            if (index === 1) {
-              return (
-                <div key={index} className="grid-item-2-imgs2">
-                  <img className="img" src={image} alt="post" />
-                </div>
-              );
-            }
+            return (
+              <div key={index} className="grid-item-2-imgs2">
+                <img className="img" src={image} alt="post" />
+              </div>
+            );
           })}
         </div>
       )}
@@ -53,13 +51,11 @@ const CreatePageImagePreview: FC<Props> = ({ previewImages }) => {
                 </div>
               );
             }
-            if (index === 2) {
-              return (
-                <div key={index} className="grid-item-3-imgs3">
-                  <img className="img" src={image} alt="post" />
-                </div>
-              );
-            }
+            return (
+              <div key={index} className="grid-item-3-imgs3">
+                <img className="img" src={image} alt="post" />
+              </div>
+            );
           })}
         </div>
       )}

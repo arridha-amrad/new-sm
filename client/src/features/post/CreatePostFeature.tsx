@@ -114,6 +114,7 @@ const PostMaker = () => {
 
   useEffect(() => {
     setFieldErrors(null);
+    // eslint-disable-next-line
   }, [state.body]);
 
   return (
