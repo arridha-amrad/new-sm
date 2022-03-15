@@ -1,0 +1,24 @@
+.notification-container {
+  position: absolute;
+  background-color: #fff;
+  z-index: 99;
+  top: 50px;
+  right: 0;
+  height: 400px;
+  width: 400px;
+  border-radius: 5px;
+}
+
+.notif-pill {
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

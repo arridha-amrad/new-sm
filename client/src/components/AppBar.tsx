@@ -2,6 +2,7 @@ import Container from "react-bootstrap/esm/Container";
 import Nav from "react-bootstrap/esm/Nav";
 import Navbar from "react-bootstrap/esm/Navbar";
 import LogoutButton from "../features/authentication/LogoutFeature";
+import NotificationButton from "./NotificationButton";
 
 const AppBar = () => {
   return (
@@ -14,7 +15,8 @@ const AppBar = () => {
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
           </Nav>
-          <Nav>
+          <Nav className="d-flex gap-5">
+            <NotificationButton />
             <LogoutButton />
           </Nav>
         </Navbar.Collapse>

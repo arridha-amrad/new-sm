@@ -1,7 +1,7 @@
 import { FC, Fragment } from "react";
-import ReplyCard from "../../components/ReplyCard";
-import { IComment } from "../comment/interface";
-import { ReplyComment } from "./interface";
+import ReplyCard from "./ReplyCard";
+import { IComment } from "../features/comment/interface";
+import { ReplyComment } from "../features/replyComment/interface";
 
 interface Props {
   comment: IComment;
@@ -10,12 +10,7 @@ interface Props {
   replies: ReplyComment[];
 }
 
-const CommentReplies: FC<Props> = ({
-  replies,
-  postIndex,
-  commentIndex,
-  comment,
-}) => {
+const Replies: FC<Props> = ({ replies, postIndex, commentIndex, comment }) => {
   return (
     <div className="mt-2 w-100">
       {replies.map((reply, index) => (
@@ -33,4 +28,4 @@ const CommentReplies: FC<Props> = ({
   );
 };
 
-export default CommentReplies;
+export default Replies;

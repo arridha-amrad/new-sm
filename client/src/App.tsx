@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
 import ProtectedRoute from "./components/ProtectedRoutes";
-import { setLoginUser } from "./features/authentication/authSlice";
+import {
+  setLoginUser,
+  setNotifications,
+} from "./features/authentication/authSlice";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -20,6 +23,7 @@ const App = () => {
         setToken(res.data.token);
         const { data } = await axiosInstance.get("/api/user/me");
         dispatch(setLoginUser(data.user));
+        dispatch(setNotifications(data.notifications));
       } finally {
         isMounted && setIsLoading(false);
       }

@@ -1,6 +1,7 @@
 import React, { FormEvent } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import useForm from "../../utils/useForm";
+import { User } from "../authentication/interface";
 import { IComment } from "../comment/interface";
 import { replyComment, replyCommentResult } from "../post/postSlice";
 
@@ -8,7 +9,7 @@ import { ReplyComment } from "./interface";
 
 interface Props {
   isNarrow?: boolean;
-  tagUser: string;
+  tagUser: User;
   stateIndex: number;
   postIndex: number;
   comment: IComment;
@@ -32,7 +33,7 @@ const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
     const dispatch = useAppDispatch();
 
     const { onChange, state, setState } = useForm({
-      body: `@${tagUser}`,
+      body: `@${tagUser.username}`,
     });
 
     const onSubmit = async (e: FormEvent) => {
@@ -41,7 +42,7 @@ const ReplyCommentForm = React.forwardRef<HTMLInputElement, Props>(
         replyComment({
           commentId: comment._id,
           body: state.body,
-          receiver: comment.owner._id,
+          receiver: tagUser._id,
         })
       );
       if (res.meta.requestStatus === "fulfilled") {

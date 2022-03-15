@@ -5,6 +5,7 @@ import argon2 from 'argon2';
 import { signAccessToken, signRefreshToken } from '../../services/JwtServices';
 import { setCookieOptions } from '../../utils/CookieHelpers';
 import { loginValidator } from './authFieldValidator';
+import { findNotificationsOfOneUser } from '../../services/NotificationService';
 
 export default async (req: Request, res: Response) => {
   const { identity, password } = req.body;
@@ -36,17 +37,19 @@ export default async (req: Request, res: Response) => {
     const refreshToken = await signRefreshToken(user);
 
     const loginUser = {
-      id: user.id!,
+      _id: user.id,
       username: user.username,
       email: user.email,
       avatarURL: user.avatarURL,
       fullName: user.fullName,
     };
 
+    const notifications = await findNotificationsOfOneUser(user.id);
+
     return res
       .status(200)
       .cookie(process.env.COOKIE_REFRESH_TOKEN, refreshToken, setCookieOptions)
-      .json({ user: loginUser, token: accessToken });
+      .json({ user: loginUser, token: accessToken, notifications });
   } catch (err) {
     console.log(err);
     return res.status(500).send('Server Error');

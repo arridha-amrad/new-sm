@@ -11,6 +11,14 @@ export interface ReplyComment {
   updatedAt: Date;
 }
 
+export interface LikeReplyDTO {
+  postIndex: number;
+  commentIndex: number;
+  replyIndex: number;
+  isLiked: boolean;
+  loginUser: User;
+}
+
 export interface ReplyCommentDTO {
   commentId: string;
   body: string;

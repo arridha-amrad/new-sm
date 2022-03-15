@@ -6,7 +6,7 @@ import CreateReplyFeature from "../features/replyComment/CreateReplyFeature";
 import DeleteReplyButton from "../features/replyComment/DeleteReplyFeature";
 import { ReplyComment } from "../features/replyComment/interface";
 import LikeReplyFeature from "../features/replyComment/LikeReplyFeatures";
-import { timeSetter } from "../utils/timeSetter";
+import timeSetter from "../utils/timeSetter";
 
 interface Props {
   reply: ReplyComment;
@@ -83,7 +83,7 @@ const ReplyCard: FC<Props> = ({
         <CreateReplyFeature
           isNarrow={true}
           ref={ref}
-          tagUser={reply.sender.username}
+          tagUser={reply.sender}
           comment={comment}
           isShow={isShow}
           postIndex={postIndex}

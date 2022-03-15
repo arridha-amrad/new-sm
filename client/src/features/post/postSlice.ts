@@ -21,6 +21,7 @@ import {
   deleteReplyAPI,
 } from "../replyComment/replyCommentApi";
 import {
+  LikeReplyDTO,
   ReplyComment,
   ReplyCommentDTO,
   ReplyCommentResult,
@@ -33,15 +34,6 @@ const initialState: PostState = {
   post: null,
   posts: [],
 };
-
-interface LikeReplyDTO {
-  replyId: string;
-  postIndex: number;
-  commentIndex: number;
-  replyIndex: number;
-  isLiked: boolean;
-  loginUser: User;
-}
 
 export const likeReplyAction = createAsyncThunk(
   "reply/likeReply",
@@ -167,7 +159,8 @@ export const postSlice = createSlice({
       }
     },
     setPosts: (state, action: PayloadAction<Post[]>) => {
-      state.posts = action.payload;
+      const posts = action.payload as WritableDraft<Post[]>;
+      state.posts = posts;
     },
     deleteReplyComment: (state, action: PayloadAction<ReplyCommentResult>) => {
       const { commentIndex, postIndex, reply } = action.payload;
@@ -271,8 +264,9 @@ export const postSlice = createSlice({
       }
     });
     builder.addCase(getPostsAction.fulfilled, (state, action) => {
+      const posts = action.payload as WritableDraft<Post[]>;
       state.isFetchingPosts = false;
-      state.posts = action.payload;
+      state.posts = posts;
     });
     builder.addCase(getPostsAction.rejected, (state) => {
       state.isFetchingPosts = false;

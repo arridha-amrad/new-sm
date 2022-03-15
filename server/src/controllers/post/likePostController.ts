@@ -1,4 +1,11 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+import { NotificationType } from '../../models/notification/INotificationModel';
+import {
+  createNotification,
+  deleteNotification,
+  findOneNotification,
+} from '../../services/NotificationService';
 import { editPost, findOnePost } from '../../services/PostService';
 
 export default async (req: Request, res: Response) => {
@@ -6,19 +13,48 @@ export default async (req: Request, res: Response) => {
   const { postId } = req.params;
   try {
     const post = await findOnePost(postId);
-
-    const isLiked = post?.likes.find(
-      (user) => user._id?.toString() === likeSender
-    );
-
-    const updatedPost = await editPost(
-      postId,
-      isLiked
-        ? { $pull: { likes: likeSender } }
-        : { $push: { likes: likeSender } }
-    );
-
-    return res.status(200).json({ post: updatedPost });
+    if (post) {
+      const isLiked = post?.likes.find(
+        (user) => user._id?.toString() === likeSender
+      );
+      const updatedPost = await editPost(
+        postId,
+        isLiked
+          ? { $pull: { likes: likeSender } }
+          : { $push: { likes: likeSender } }
+      );
+      // create notification if likeSender is not the post owner
+      if (post?.owner._id.toString() !== likeSender) {
+        const notification = await findOneNotification({
+          type: NotificationType.LIKE_POST,
+          owner: post.owner,
+          post: post._id,
+        });
+        if (!notification) {
+          await createNotification({
+            post: post._id,
+            type: NotificationType.LIKE_POST,
+            owner: post.owner,
+            sender: likeSender,
+          });
+        } else {
+          if (isLiked) {
+            notification.sender.pull(likeSender);
+            if (notification.sender.length === 0) {
+              await deleteNotification(notification.id);
+            } else {
+              await notification.save();
+            }
+          } else {
+            const user = new mongoose.Types.ObjectId(likeSender);
+            notification.sender.unshift(user);
+            await notification.save();
+          }
+        }
+      }
+      return res.status(200).json({ post: updatedPost });
+    }
+    return res.sendStatus(404);
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);

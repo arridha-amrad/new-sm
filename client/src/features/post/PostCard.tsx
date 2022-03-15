@@ -11,8 +11,8 @@ import { Post } from "./interface";
 import LikePostButton from "./LikePostFeature";
 import { toggleIsEdit, unsetIsEdit } from "./postSlice";
 import UpdatePostForm from "./UpdatePostFeature";
-import { timeSetter } from "../../utils/timeSetter";
-import { setLikes } from "../../utils/likeHelpers";
+import timeSetter from "../../utils/timeSetter";
+import setLikes from "../../utils/likeHelpers";
 
 interface Props {
   post: Post;

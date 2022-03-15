@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 import { IUserModel } from './IUserModel';
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema<IUserModel, Model<IUserModel>>(
   {
     fullName: {
       type: String,
@@ -54,6 +54,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const UserModel = mongoose.model<IUserModel>('User', UserSchema);
+const UserModel = model<IUserModel>('User', UserSchema);
 
 export default UserModel;

@@ -1,4 +1,4 @@
-export const timeSetter = (date: Date) => {
+export default (date: Date) => {
   const month = [
     "January",
     "February",

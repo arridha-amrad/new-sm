@@ -1,3 +1,28 @@
+import { IComment } from "../comment/interface";
+import { Post } from "../post/interface";
+import { ReplyComment } from "../replyComment/interface";
+
+export enum NotificationType {
+  LIKE_POST = "likePost",
+  LIKE_COMMENT = "likeComment",
+  LIKE_REPLY = "likeReply",
+  COMMENT_POST = "commentPost",
+  REPLY_COMMENT = "replyComment",
+}
+
+export interface INotification {
+  _id: string;
+  type: NotificationType;
+  post?: Post;
+  comment?: IComment;
+  reply?: ReplyComment;
+  owner: User;
+  sender: User[];
+  isRead: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface RegisterDTO {
   email: string;
   username: string;
@@ -20,4 +45,5 @@ export interface User {
 export interface AuthState {
   loginUser: User | null;
   isLoadingAuth: boolean;
+  notifications: INotification[];
 }

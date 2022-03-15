@@ -5,8 +5,8 @@ import DeleteCommentButton from "../features/comment/DeleteCommentFeature";
 import { IComment } from "../features/comment/interface";
 import LikeCommentButton from "../features/comment/LikeCommentFeature";
 import ReplyCommentForm from "../features/replyComment/CreateReplyFeature";
-import CommentReplies from "../features/replyComment/Replies";
-import { timeSetter } from "../utils/timeSetter";
+import CommentReplies from "./Replies";
+import timeSetter from "../utils/timeSetter";
 
 interface Props {
   comment: IComment;
@@ -57,7 +57,7 @@ const CommentCard: FC<Props> = ({ comment, postIndex, commentIndex }) => {
         </div>
 
         <ReplyCommentForm
-          tagUser={comment.owner.username}
+          tagUser={comment.owner}
           ref={ref}
           isShow={isShowReplyForm}
           setIsShow={setIsShowReplyForm}

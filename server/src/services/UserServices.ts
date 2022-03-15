@@ -7,9 +7,7 @@ export const createUser = async (user: IUserModel): Promise<IUserModel> => {
   return newUser.save();
 };
 
-export const findUserByUsernameOrEmail = async (
-  usernameOrEmail: string
-): Promise<IUserModel | null> => {
+export const findUserByUsernameOrEmail = async (usernameOrEmail: string) => {
   return UserModel.findOne(
     usernameOrEmail.includes('@')
       ? { email: usernameOrEmail }
@@ -17,10 +15,7 @@ export const findUserByUsernameOrEmail = async (
   );
 };
 
-export const findUserById = async (
-  userId: string,
-  selects?: string
-): Promise<IUserModel | null> => {
+export const findUserById = async (userId: string, selects?: string) => {
   return UserModel.findById(userId).select(selects);
 };
 
@@ -28,7 +23,7 @@ export const findUserByIdAndUpdate = async (
   id: string,
   update: UpdateQuery<IUserModel>,
   options?: QueryOptions | null
-): Promise<IUserModel | null> => {
+) => {
   return UserModel.findByIdAndUpdate(id, update, options);
 };
 

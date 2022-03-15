@@ -10,7 +10,7 @@ const Home = () => {
     <>
       <Navbar />
       <Container>
-        <div className="row align-items-center">
+        <div className="row align-items-center mt-3">
           <div className="col-lg-8 col-12">
             <PostMaker />
           </div>

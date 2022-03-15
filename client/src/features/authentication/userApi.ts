@@ -1,15 +1,12 @@
 import axiosInstance from "../../utils/axiosInterceptor";
-import { LoginDTO, RegisterDTO, User } from "./interface";
+import { INotification, LoginDTO, RegisterDTO, User } from "./interface";
 
 export const registerAPI = async (data: RegisterDTO) => {
   return axiosInstance.post<{ message: string }>("/api/auth/register", data);
 };
 
 export const loginAPI = async (data: LoginDTO) => {
-  return axiosInstance.post<{ user: User; token: string }>(
-    "/api/auth/login",
-    data
-  );
+  return axiosInstance.post("/api/auth/login", data);
 };
 
 export const refreshTokenAPI = async () => {

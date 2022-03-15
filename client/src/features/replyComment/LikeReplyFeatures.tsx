@@ -21,15 +21,12 @@ const LikeReplyFeature: FC<Props> = ({
   const isLiked = reply.likes.find((user) => user._id === loginUser?._id);
   const dispatch = useAppDispatch();
   const handleLikeReply = async () => {
-    console.log("isLiked : ", !!isLiked);
-
     dispatch(
       setLikeReply({
         commentIndex,
         isLiked: !!isLiked,
         loginUser: loginUser!,
         postIndex,
-        replyId: reply._id,
         replyIndex,
       })
     );
