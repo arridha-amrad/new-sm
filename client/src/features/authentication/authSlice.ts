@@ -1,13 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setToken } from "../../utils/axiosInterceptor";
-import {
-  AuthState,
-  INotification,
-  LoginDTO,
-  RegisterDTO,
-  User,
-} from "./interface";
+import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
 import { loginAPI, logoutAPI, registerAPI } from "./userApi";
 
 const initialState: AuthState = {

@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { NotificationType } from '../../models/notification/INotificationModel';
 import { findOneComment } from '../../services/CommentService';
-import { createNotification } from '../../services/NotificationService';
+import {
+  createNotification,
+  findOneNotification,
+} from '../../services/NotificationService';
 import { makeReply } from '../../services/ReplyService';
 
 export default async (req: Request, res: Response) => {
@@ -21,12 +25,41 @@ export default async (req: Request, res: Response) => {
       comment.replies.push(newReply);
       await comment.save();
 
-      await createNotification({
-        comment: comment._id,
-        owner: receiver,
+      // create notification for receiver of reply
+      const notification = await findOneNotification({
+        comment: comment.id,
         type: NotificationType.REPLY_COMMENT,
-        sender: replySender,
+        owner: receiver,
       });
+
+      if (!notification) {
+        await createNotification({
+          comment: comment._id,
+          owner: receiver,
+          type: NotificationType.REPLY_COMMENT,
+          sender: replySender,
+          body,
+        });
+      } else {
+        // if sender already exists change his index to 0
+        // so he will be the latest person who comment the post
+        // and the commentBody will appear as the latest notificationBody
+        const alreadySender = notification.sender.find(
+          (user) => user.id === replySender
+        );
+        if (alreadySender) {
+          const index = notification.sender.findIndex(
+            (sender) => sender.id === alreadySender
+          );
+          notification.sender.splice(index, 1);
+          notification.sender.unshift(alreadySender);
+        } else {
+          const user = new mongoose.Types.ObjectId(replySender);
+          notification.sender.unshift(user);
+        }
+        notification.body = body;
+        await notification.save();
+      }
     }
     return res.status(200).json({ reply: newReply });
   } catch (err) {

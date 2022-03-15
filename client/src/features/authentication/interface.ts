@@ -14,6 +14,7 @@ export interface INotification {
   _id: string;
   type: NotificationType;
   post?: Post;
+  body?: string;
   comment?: IComment;
   reply?: ReplyComment;
   owner: User;

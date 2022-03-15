@@ -1,6 +1,6 @@
 import { User } from "../features/authentication/interface";
 
-export default (users: User[], authenticatedUser: User) => {
+const likeHelpers = (users: User[], authenticatedUser: User) => {
   const newArray = [];
   for (let i = 0; i < users.length; i++) {
     if (i > 0 && i + 1 !== users.length) {
@@ -25,3 +25,5 @@ export default (users: User[], authenticatedUser: User) => {
   }
   return newArray.join("");
 };
+
+export default likeHelpers;

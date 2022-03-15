@@ -4,10 +4,15 @@
   z-index: 99;
   top: 50px;
   right: 0;
-  height: 400px;
+  max-height: 400px;
+  overflow-y: auto;
   width: 400px;
   border-radius: 5px;
 }
+
+/* .notification-container::-webkit-scrollbar {
+  display: none;
+} */
 
 .notif-pill {
   border-radius: 50%;

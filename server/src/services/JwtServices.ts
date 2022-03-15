@@ -131,7 +131,7 @@ export const signRefreshToken = (
       reject(new Error('signRefreshToken error : jwtVersion not provided'));
     }
     jwt.sign(
-      { userId: user.id, jwtVersion: user.jwtVersion },
+      { userId: user.id!, jwtVersion: user.jwtVersion },
       privateKey,
       refreshTokenSignOptions,
       (err, token) => {

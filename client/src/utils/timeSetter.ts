@@ -1,4 +1,4 @@
-export default (date: Date) => {
+const timeSetter = (date: Date) => {
   const month = [
     "January",
     "February",
@@ -33,3 +33,5 @@ export default (date: Date) => {
   }
   return result;
 };
+
+export default timeSetter;

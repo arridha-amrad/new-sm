@@ -27,7 +27,7 @@ export default async (req: Request, res: Response) => {
       // create notification if the commentUser is not the postOwner
       if (post.owner._id.toString() !== commentUser) {
         const notification = await findOneNotification({
-          comment: newComment._id,
+          post: post,
           type: NotificationType.COMMENT_POST,
         });
         if (!notification) {

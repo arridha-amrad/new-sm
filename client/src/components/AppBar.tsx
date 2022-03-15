@@ -2,7 +2,7 @@ import Container from "react-bootstrap/esm/Container";
 import Nav from "react-bootstrap/esm/Nav";
 import Navbar from "react-bootstrap/esm/Navbar";
 import LogoutButton from "../features/authentication/LogoutFeature";
-import NotificationButton from "./NotificationButton";
+import NotificationButton from "./Notification/NotificationButton";
 
 const AppBar = () => {
   return (

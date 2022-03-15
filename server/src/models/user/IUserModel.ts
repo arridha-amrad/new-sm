@@ -1,4 +1,5 @@
 export interface IUserModel {
+  id?: string;
   fullName?: string;
   username: string;
   strategy: 'default' | 'google' | 'facebook';

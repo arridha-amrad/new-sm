@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import InputPassword from "../../components/InputPassword";
 import MyAlert from "../../components/MyAlert";
@@ -13,7 +13,6 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const { loginUser } = useAppSelector(selectUserState);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const checkField = () => {
     let errors: LoginFieldValidator = {};

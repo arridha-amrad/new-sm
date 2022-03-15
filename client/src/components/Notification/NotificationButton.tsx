@@ -1,6 +1,6 @@
-import { Fragment, useRef, useState } from "react";
-import { useAppSelector } from "../app/hooks";
-import { selectUserState } from "../features/authentication/authSlice";
+import { useRef, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
+import { selectUserState } from "../../features/authentication/authSlice";
 import NotificationCard from "./NotificationCard";
 import "./style.css";
 
@@ -34,10 +34,17 @@ const NotificationButton = () => {
       )}
       {isShow && (
         <div className="notification-container shadow text-body fw-normal">
+          {notifications.length === 0 && (
+            <div className="text-center">You have no notification</div>
+          )}
           {notifications.map((notif, index) => (
-            <Fragment key={notif._id}>
+            <div key={notif._id}>
               <NotificationCard notifIndex={index} notification={notif} />
-            </Fragment>
+              {notifications.length > 1 &&
+                index !== notifications.length - 1 && (
+                  <hr style={{ color: "#ccc" }} />
+                )}
+            </div>
           ))}
         </div>
       )}
