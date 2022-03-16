@@ -55,6 +55,7 @@ export default async (req: Request, res: Response) => {
           } else {
             const user = new mongoose.Types.ObjectId(commentUser);
             notification.sender.unshift(user);
+            notification.isRead = false;
           }
           notification.body = body;
           await notification.save();

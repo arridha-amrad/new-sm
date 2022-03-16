@@ -22,7 +22,7 @@ export const deleteNotification = async (id: string) => {
 
 export const findNotificationsOfOneUser = async (userId: string) => {
   return NotificationModel.find({ owner: userId })
-    .sort({ createdAt: 'desc' })
+    .sort({ updatedAt: 'desc' })
     .populate('sender', 'username avatarURL')
     .populate('comment', 'body createdAt')
     .populate('post', 'body createdAt')

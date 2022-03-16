@@ -51,6 +51,7 @@ export default async (req: Request, res: Response) => {
           } else {
             const user = new mongoose.Types.ObjectId(likeSender);
             notification.sender.unshift(user);
+            notification.isRead = false;
             await notification.save();
           }
         }

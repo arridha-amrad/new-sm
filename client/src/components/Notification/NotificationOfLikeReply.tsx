@@ -8,7 +8,7 @@ interface Props {
   loginUser: User;
 }
 
-const NotificationOfLikePost: FC<Props> = ({ notification, loginUser }) => {
+const NotificationOfLikeReply: FC<Props> = ({ notification, loginUser }) => {
   const senders = notification.sender;
   return (
     <div className="d-flex gap-3 align-items-start p-3">
@@ -29,7 +29,7 @@ const NotificationOfLikePost: FC<Props> = ({ notification, loginUser }) => {
       </div>
       <div className="d-flex flex-column gap-1">
         <div className="d-flex flex-column justify-content-start align-items-start">
-          <div>{likeHelpers(senders, loginUser!)} like your post</div>
+          <div>{likeHelpers(senders, loginUser!)} like your reply</div>
           <small className=" text-secondary">
             {timeSetter(new Date(notification.updatedAt))}
           </small>
@@ -49,11 +49,11 @@ const NotificationOfLikePost: FC<Props> = ({ notification, loginUser }) => {
               you
               <span className="ms-2">
                 <small className="text-secondary">
-                  {timeSetter(new Date(notification.post!.createdAt))}
+                  {timeSetter(new Date(notification.reply!.createdAt))}
                 </small>
               </span>
             </div>
-            <div>{notification.post?.body}</div>
+            <div>{notification.reply?.body}</div>
           </div>
         </div>
       </div>
@@ -61,4 +61,4 @@ const NotificationOfLikePost: FC<Props> = ({ notification, loginUser }) => {
   );
 };
 
-export default NotificationOfLikePost;
+export default NotificationOfLikeReply;

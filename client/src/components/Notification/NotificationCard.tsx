@@ -8,6 +8,7 @@ import {
 import NotificationOfCommentPost from "./NotificationOfCommentPost";
 import NotificationOfLikeComment from "./NotificationOfLikeComment";
 import NotificationOfLikePost from "./NotificationOfLikePost";
+import NotificationOfLikeReply from "./NotificationOfLikeReply";
 import NotificationOfReply from "./NotificationOfReply";
 
 interface Props {
@@ -46,7 +47,12 @@ const NotificationCard: FC<Props> = ({ notification, notifIndex }) => {
       <NotificationOfReply loginUser={loginUser!} notification={notification} />
     );
   }
-  return <div>{notification.type}</div>;
+  return (
+    <NotificationOfLikeReply
+      loginUser={loginUser!}
+      notification={notification}
+    />
+  );
 };
 
 export default NotificationCard;
