@@ -1,5 +1,5 @@
 import NotificationModel from '../models/notification/NotificationModel';
-import { AnyKeys, FilterQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, UpdateQuery } from 'mongoose';
 import { INotificationModel } from '../models/notification/INotificationModel';
 
 export const createNotification = async (data: AnyKeys<INotificationModel>) => {
@@ -27,4 +27,11 @@ export const findNotificationsOfOneUser = async (userId: string) => {
     .populate('comment', 'body createdAt')
     .populate('post', 'body createdAt')
     .populate('reply', 'body createdAt');
+};
+
+export const findByIdAndUpdate = async (
+  notifId: string,
+  update: UpdateQuery<INotificationModel>
+) => {
+  return NotificationModel.findByIdAndUpdate(notifId, update);
 };
