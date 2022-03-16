@@ -15,10 +15,15 @@ import ReplyRoutes from './routes/ReplyRoutes';
 import CommentRoutes from './routes/CommentRoutes';
 import NotificationRoutes from './routes/NotificationRoutes';
 
+import { createServer } from 'http';
+import { initIo } from './socket/socketInitializer';
+
 console.clear();
 
 export const runServer = () => {
   const app: Express = express();
+
+  const httpServer = createServer(app);
 
   app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 
@@ -39,7 +44,11 @@ export const runServer = () => {
   app.use('/api/notification', NotificationRoutes);
 
   const PORT = process.env.PORT;
-  app.listen(PORT, () => {
+
+  // init socket io
+  initIo(httpServer);
+
+  httpServer.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT} 🚀`);
   });
 

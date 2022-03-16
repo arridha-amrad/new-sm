@@ -5,8 +5,15 @@ import HomePosts from "../components/HomePosts";
 import PostMaker from "../features/post/CreatePostFeature";
 import { ToastContainer } from "react-toastify";
 import "./style.css";
+import { useEffect } from "react";
+import { useAppSelector } from "../app/hooks";
+import { selectSocket } from "../features/socket/socketSlice";
 
 const Home = () => {
+  const socket = useAppSelector(selectSocket);
+  useEffect(() => {
+    console.log("socket : ", socket);
+  }, [socket]);
   return (
     <>
       <Navbar />

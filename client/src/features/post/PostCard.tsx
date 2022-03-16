@@ -44,7 +44,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
 
   return (
     <div className="row justify-content-start mb-4 px-2">
-      <div className="col-12 col-lg-8 rounded border p-3">
+      <div className="col-12 rounded border p-3">
         <div className="d-flex gap-4 align-items-center mb-2">
           <img
             style={{ width: "50px", height: "50px" }}
@@ -108,15 +108,19 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
           </div>
         </div>
 
-        <div className="d-flex my-2 align-items-center">
-          {post.likes.length > 0 && <span>{post.likes.length}</span>}
+        <div className="d-flex my-2 align-items-center gap-2">
+          {post.likes.length > 0 && (
+            <span className=" fw-bolder">{post.likes.length}</span>
+          )}
           <LikePostButton post={post} stateIndex={stateIndex} />
           <button
             onClick={() => ref.current?.focus()}
             className="btn bg-transparent border-0"
           >
             <div className="d-flex align-items-center gap-2">
-              {post.comments.length > 0 && <div>{sumComments()}</div>}
+              {post.comments.length > 0 && (
+                <div className=" fw-bolder">{sumComments()}</div>
+              )}
               <div>
                 <CommentIcon />
               </div>

@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authReducer from "../features/authentication/authSlice";
 import postReducer from "../features/post/postSlice";
 import commentReducer from "../features/comment/commentSlice";
+import socketReducer from "../features/socket/socketSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     post: postReducer,
     comment: commentReducer,
+    mySocket: socketReducer,
   },
 });
 

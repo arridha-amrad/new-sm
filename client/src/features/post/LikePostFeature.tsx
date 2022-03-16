@@ -27,7 +27,7 @@ const LikePostButton: FC<Props> = ({ post, stateIndex }) => {
   return (
     <button
       onClick={handleLikePost}
-      className="btn bg-transparent border-0"
+      className="btn bg-transparent border-0 p-0"
       style={{ cursor: "pointer" }}
     >
       {isLiked ? (
