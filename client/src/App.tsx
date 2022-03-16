@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import {
+  addNotification,
   selectUserState,
   setLoginUser,
   setNotifications,
@@ -45,8 +46,13 @@ const App = () => {
 
   useEffect(() => {
     if (loginUser) {
-      socket?.emit("addUser", loginUser.username);
+      socket?.emit("addUserCS", loginUser.username);
     }
+    socket?.on("likePostSC", (notification) => {
+      console.log("receive : ", notification);
+
+      dispatch(addNotification(notification));
+    });
   }, [socket]);
 
   if (isLoading) {

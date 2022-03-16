@@ -65,8 +65,7 @@ export const editPost = async (
   postId: string,
   update?: UpdateQuery<IPostModel> | undefined
 ) => {
-  return PostModel.findByIdAndUpdate(postId, update, { new: true }).populate(
-    'likes',
-    'username avatarURL'
-  );
+  return PostModel.findByIdAndUpdate(postId, update, { new: true })
+    .populate('likes', 'username avatarURL')
+    .populate('owner', 'username');
 };

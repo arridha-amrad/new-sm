@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  addNotification,
   readNotificationAction,
   selectUserState,
 } from "../../features/authentication/authSlice";
+import { getSocket } from "../../mySocket";
 import NotificationCard from "./NotificationCard";
 import "./style.css";
 
@@ -12,6 +14,7 @@ const NotificationButton = () => {
   const { notifications } = useAppSelector(selectUserState);
   const ref = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
+  const socket = getSocket();
 
   const readNotification = async (notificationIds: string[]) => {
     await dispatch(readNotificationAction(notificationIds));

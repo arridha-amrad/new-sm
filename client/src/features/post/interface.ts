@@ -1,5 +1,5 @@
 import { IComment } from "../comment/interface";
-import { User } from "../authentication/interface";
+import { INotification, User } from "../authentication/interface";
 
 export interface Post {
   _id: string;
@@ -23,4 +23,9 @@ export interface PostState {
 export interface UpdatePostDTO {
   body: string;
   postId: string;
+}
+
+export interface LikePostResponse {
+  post: Post;
+  notification: INotification;
 }

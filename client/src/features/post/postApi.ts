@@ -1,4 +1,5 @@
 import axiosInstance from "../../utils/axiosInterceptor";
+import { INotification } from "../authentication/interface";
 import { Post, UpdatePostDTO } from "./interface";
 
 const url = "/api/post";
@@ -16,7 +17,9 @@ export const getPostByIdAPI = async (postId: string) => {
 };
 
 export const likePostAPI = async (postId: string) => {
-  return axiosInstance.post<{ post: Post }>(`${url}/like/${postId}`);
+  return axiosInstance.post<{ post: Post; notification: INotification }>(
+    `${url}/like/${postId}`
+  );
 };
 
 export const deletePostAPI = async (postId: string) => {

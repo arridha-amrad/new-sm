@@ -27,6 +27,7 @@ import {
   ReplyCommentResult,
 } from "../replyComment/interface";
 import { likeReplyAPI } from "../replyComment/replyApi";
+import { getSocket } from "../../mySocket";
 
 const initialState: PostState = {
   isLoading: false,
@@ -85,8 +86,12 @@ export const getPostsAction = createAsyncThunk(
 export const likePostAction = createAsyncThunk(
   "post/likePost",
   async (postId: string, thunkAPI) => {
+    const socket = getSocket();
     try {
       const { data } = await likePostAPI(postId);
+      if (data.notification) {
+        socket?.emit("likePostCS", data.notification, data.post.owner.username);
+      }
       return data.post;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response.data);

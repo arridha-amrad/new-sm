@@ -2,16 +2,23 @@ import { INotificationModel } from '../models/notification/INotificationModel';
 
 export interface ServerToClientEvents {
   greet: (msg: string) => void;
-  likeAlert: (data: INotificationModel) => void;
-  commentAlert: (notification: INotificationModel) => void;
-  likeCommentAlert: (notification: INotificationModel) => void;
+  likePostSC: (data: INotificationModel) => void;
+  likeCommentSC: (notification: INotificationModel) => void;
+  likeReplySC: (notification: INotificationModel) => void;
+  createCommentSC: (notification: INotificationModel) => void;
+  createReplySC: (notification: INotificationModel) => void;
 }
 
 export interface ClientToServerEvents {
-  addUser: (username: string) => void;
-  likePost: (data: INotificationModel, toUsername: string) => void;
-  addComment: (notification: INotificationModel, toUsername: string) => void;
-  likeComment: (notification: INotificationModel, toUsername: string) => void;
+  addUserCS: (username: string) => void;
+  likePostCS: (data: INotificationModel, toUsername: string) => void;
+  likeCommentCS: (notification: INotificationModel, toUsername: string) => void;
+  likeReplyCS: (notification: INotificationModel, toUsername: string) => void;
+  createCommentCS: (
+    notification: INotificationModel,
+    toUsername: string
+  ) => void;
+  createReplyCS: (notification: INotificationModel, toUsername: string) => void;
 }
 
 export interface InterServerEvents {

@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer/dist/internal";
 import { RootState } from "../../app/store";
 import { setToken } from "../../utils/axiosInterceptor";
-import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
+import {
+  AuthState,
+  INotification,
+  LoginDTO,
+  RegisterDTO,
+  User,
+} from "./interface";
 import {
   loginAPI,
   logoutAPI,
@@ -67,6 +74,20 @@ export const userSlice = createSlice({
     setNotifications: (state, action) => {
       state.notifications = action.payload;
     },
+    addNotification: (state, action: PayloadAction<INotification>) => {
+      const notification = action.payload;
+      const notifIndex = state.notifications.findIndex(
+        (ntf) => ntf._id === notification._id
+      );
+      if (notifIndex < 0) {
+        state.notifications.unshift(
+          notification as WritableDraft<INotification>
+        );
+      } else {
+        state.notifications[notifIndex].sender = notification.sender;
+        state.notifications[notifIndex].isRead = false;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(readNotificationAction.fulfilled, (state) => {
@@ -84,7 +105,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setLoginUser, setNotifications } = userSlice.actions;
+export const { setLoginUser, setNotifications, addNotification } =
+  userSlice.actions;
 export const selectUserState = (state: RootState) => state.auth;
 
 export default userSlice.reducer;

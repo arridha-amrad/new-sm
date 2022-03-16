@@ -45,39 +45,42 @@ export const initIo = (httpServer: HTTPServer) => {
   });
 
   io.on('connection', (socket) => {
-    socket.on('addUser', (username) => {
+    socket.on('addUserCS', (username) => {
       addUser(username, socket.id);
       console.log('addUsers : ', onlineUsers);
     });
 
-    socket.on('addComment', (notification, toUsername) => {
+    socket.on('createCommentCS', (notification, toUsername) => {
       console.log('comment...');
       const user = getUser(toUsername);
       if (user) {
-        io.to(user.socketId).emit('commentAlert', notification);
+        io.to(user.socketId).emit('createCommentSC', notification);
       }
     });
 
-    socket.on('likeComment', (notification, toUsername) => {
+    socket.on('likeCommentCS', (notification, toUsername) => {
       console.log('like comment...');
       const user = getUser(toUsername);
       if (user) {
-        io.to(user.socketId).emit('likeCommentAlert', notification);
+        io.to(user.socketId).emit('likeCommentSC', notification);
       }
     });
 
-    socket.on('likePost', (notification, toUsername) => {
+    socket.on('likePostCS', (notification, toUsername) => {
       console.log('like...');
+      console.log('noti : ', notification);
+      console.log('username : ', toUsername);
+
       const user = getUser(toUsername);
       if (user) {
-        io.to(user.socketId).emit('likeAlert', notification);
+        console.log('ntf : ', notification);
+        io.to(user.socketId).emit('likePostSC', notification);
       }
     });
 
     socket.on('disconnect', () => {
-      console.log('an user left');
       const users = removeUser(socket.id);
-      console.log('remaining users : ', users);
+      console.log('an user left. -- remaining users : ', users);
     });
   });
 };

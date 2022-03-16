@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getSocket } from "../../mySocket";
 import { selectUserState } from "../authentication/authSlice";
-import { Post } from "./interface";
+import { LikePostResponse, Post } from "./interface";
 import { likePostAction, setLikePost } from "./postSlice";
 
 interface Props {
@@ -22,7 +23,7 @@ const LikePostButton: FC<Props> = ({ post, stateIndex }) => {
         isLiked: !!isLiked,
       })
     );
-    await dispatch(likePostAction(post._id));
+    dispatch(likePostAction(post._id));
   };
   return (
     <button

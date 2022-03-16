@@ -7,6 +7,7 @@ import {
   findOneNotification,
 } from '../../services/NotificationService';
 import { editPost, findOnePost } from '../../services/PostService';
+import { findUserById } from '../../services/UserServices';
 
 export default async (req: Request, res: Response) => {
   const likeSender = req.userId;
@@ -25,13 +26,14 @@ export default async (req: Request, res: Response) => {
       );
       // create notification if likeSender is not the post owner
       if (post?.owner._id.toString() !== likeSender) {
+        let currentNotification;
         const notification = await findOneNotification({
           type: NotificationType.LIKE_POST,
           owner: post.owner,
           post: post._id,
         });
         if (!notification) {
-          await createNotification({
+          currentNotification = await createNotification({
             post: post._id,
             type: NotificationType.LIKE_POST,
             owner: post.owner,
@@ -45,13 +47,17 @@ export default async (req: Request, res: Response) => {
             } else {
               await notification.save();
             }
+            return res.status(200).json({ post: updatedPost });
           } else {
-            const user = new mongoose.Types.ObjectId(likeSender);
+            const user = await findUserById(likeSender, 'username');
             notification.sender.unshift(user);
             notification.isRead = false;
-            await notification.save();
+            currentNotification = await notification.save();
           }
         }
+        return res
+          .status(200)
+          .json({ post: updatedPost, notification: currentNotification });
       }
       return res.status(200).json({ post: updatedPost });
     }
