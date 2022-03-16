@@ -4,7 +4,7 @@ import { selectUserState } from "../features/authentication/authSlice";
 const HomeProfile = () => {
   const { loginUser } = useAppSelector(selectUserState);
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
+    <div className="d-flex flex-column justify-content-center align-items-center border p-3 rounded">
       <div>
         <img
           style={{

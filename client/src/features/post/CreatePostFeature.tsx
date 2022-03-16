@@ -118,7 +118,7 @@ const PostMaker = () => {
   }, [state.body]);
 
   return (
-    <div className="mt-2 border p-2 rounded">
+    <div className="border p-2 rounded">
       <form onSubmit={onSubmit} className="d-flex flex-column gap-3">
         <div className=" d-flex gap-3">
           <div className="d-flex flex-column flex-grow-1">

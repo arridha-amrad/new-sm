@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Nav from "react-bootstrap/esm/Nav";
 import Navbar from "react-bootstrap/esm/Navbar";
@@ -5,10 +6,30 @@ import LogoutButton from "../features/authentication/LogoutFeature";
 import NotificationButton from "./Notification/NotificationButton";
 
 const AppBar = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    console.log(scrollPosition);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      className={scrollPosition > 10 ? "shadow-sm" : ""}
+      fixed="top"
+      bg="light"
+      expand="lg"
+    >
       <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">Social Media</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

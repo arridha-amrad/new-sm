@@ -4,23 +4,25 @@ import HomeProfile from "../components/HomeProfile";
 import HomePosts from "../components/HomePosts";
 import PostMaker from "../features/post/CreatePostFeature";
 import { ToastContainer } from "react-toastify";
+import "./style.css";
 
 const Home = () => {
   return (
     <>
       <Navbar />
       <Container>
-        <div className="row align-items-center mt-3">
-          <div className="col-lg-8 col-12">
+        <div className="grid-container">
+          <div className="grid-item-1">
             <PostMaker />
+            <HomePosts />
           </div>
-          <div className="col-lg-4 d-lg-block d-none">
-            <HomeProfile />
+          <div className="grid-item-2">
+            <div className="home-profile">
+              <HomeProfile />
+            </div>
           </div>
         </div>
-        <div className="mt-5">
-          <HomePosts />
-        </div>
+        <div className="mt-5"></div>
         <ToastContainer
           position="bottom-center"
           autoClose={5000}

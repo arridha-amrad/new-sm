@@ -43,7 +43,7 @@ const PostCard: FC<Props> = ({ post, stateIndex }) => {
   };
 
   return (
-    <div className="row justify-content-center mb-4">
+    <div className="row justify-content-start mb-4 px-2">
       <div className="col-12 col-lg-8 rounded border p-3">
         <div className="d-flex gap-4 align-items-center mb-2">
           <img

@@ -2,13 +2,30 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { setToken } from "../../utils/axiosInterceptor";
 import { AuthState, LoginDTO, RegisterDTO, User } from "./interface";
-import { loginAPI, logoutAPI, registerAPI } from "./userApi";
+import {
+  loginAPI,
+  logoutAPI,
+  registerAPI,
+  setNotificationReadAPI,
+} from "./userApi";
 
 const initialState: AuthState = {
   isLoadingAuth: true,
   loginUser: null,
   notifications: [],
 };
+
+export const readNotificationAction = createAsyncThunk(
+  "user/read-notification",
+  async (notificationIds: string[], thunkAPI) => {
+    try {
+      await setNotificationReadAPI(notificationIds);
+    } catch (err: any) {
+      console.log(err);
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const registerAction = createAsyncThunk(
   "user/registration",
@@ -52,6 +69,9 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(readNotificationAction.fulfilled, (state) => {
+      state.notifications.map((ntf) => (ntf.isRead = true));
+    });
     builder.addCase(logoutAction.fulfilled, (state) => {
       state.loginUser = null;
     });
