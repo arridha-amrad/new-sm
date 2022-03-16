@@ -19,7 +19,6 @@ const NotificationButton = () => {
 
   const getUnreadNotifications = () => {
     const ntfs = notifications.filter((ntf) => ntf.isRead === false);
-    console.log("unread : ", ntfs);
     return ntfs;
   };
 

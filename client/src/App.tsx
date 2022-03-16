@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import {
+  selectUserState,
   setLoginUser,
   setNotifications,
 } from "./features/authentication/authSlice";
@@ -16,14 +17,12 @@ import { getSocket, setSocket } from "./mySocket";
 const App = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const { loginUser } = useAppSelector(selectUserState);
   const socket = getSocket();
 
   useEffect(() => {
     let isMounted = true;
     const socketIo = io("http://localhost:5000");
-
-    console.log("socketIO : ", socketIo);
-
     setSocket(socketIo);
     const fetchUser = async () => {
       try {
@@ -44,8 +43,18 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (loginUser) {
+      socket?.emit("addUser", loginUser.username);
+    }
+  }, [socket]);
+
   if (isLoading) {
-    return <p>loading...</p>;
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <p>loading...</p>
+      </div>
+    );
   }
 
   return (

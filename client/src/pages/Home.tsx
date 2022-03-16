@@ -6,14 +6,15 @@ import PostMaker from "../features/post/CreatePostFeature";
 import { ToastContainer } from "react-toastify";
 import "./style.css";
 import { useEffect } from "react";
-import { useAppSelector } from "../app/hooks";
-import { selectSocket } from "../features/socket/socketSlice";
+import { getSocket } from "../mySocket";
 
 const Home = () => {
-  const socket = useAppSelector(selectSocket);
+  const socket = getSocket();
+
   useEffect(() => {
     console.log("socket : ", socket);
-  }, [socket]);
+  }, []);
+
   return (
     <>
       <Navbar />
